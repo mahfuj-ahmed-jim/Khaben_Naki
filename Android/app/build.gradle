@@ -41,4 +41,7 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
     implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
 
+    // pin view
+    implementation 'com.chaos.view:pinview:1.4.4'
+
 }

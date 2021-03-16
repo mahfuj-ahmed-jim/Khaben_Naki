@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KhabenNaki">
-        <activity android:name=".Design.BuyerSignInActivity"></activity>
+        <activity android:name=".Design.PinCodeActivity"></activity>
+        <activity android:name=".Design.BuyerSignInActivity" />
         <activity android:name=".Design.SelectActivity" />
         <activity android:name=".Design.MainActivity">
             <intent-filter>
