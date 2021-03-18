@@ -45,11 +45,14 @@ public class BuyerSignInActivity extends AppCompatActivity {
     private Button continue_button, shade_button, back_button;
 
     // firebase
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack; // send otp failed resend it
-    private PhoneAuthProvider.ForceResendingToken forceResendingToken;
-    private String verifyCode; // will hold otp to verify
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack; // send otp
+    private PhoneAuthProvider.ForceResendingToken forceResendingToken; // resend otp when fail
     private static final String TAG = "Main_Tag";
     private FirebaseAuth firebaseAuth;
+
+    public PhoneAuthProvider.ForceResendingToken getForceResendingToken() {
+        return forceResendingToken;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +103,11 @@ public class BuyerSignInActivity extends AppCompatActivity {
             public void onCodeSent(@NonNull String verifyCode, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(verifyCode, forceResendingToken);
                 // sms verification
-                startActivity(new Intent(getApplicationContext(),PinCodeActivity.class));
+                Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
+                intent.putExtra("Verify Code",verifyCode);
+                intent.putExtra("Token",forceResendingToken);
+                intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
+                startActivity(intent);
             }
         };
 
@@ -173,10 +180,10 @@ public class BuyerSignInActivity extends AppCompatActivity {
 
     private void startPhoneNumberVerification() {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
-                .setPhoneNumber("+880"+editText.getText().toString().trim())
-                .setTimeout(60L, TimeUnit.SECONDS)
+                .setPhoneNumber("+880"+editText.getText().toString().trim()) // set phone number
+                .setTimeout(60L, TimeUnit.SECONDS) // set timer for submit the code
                 .setActivity(this)
-                .setCallbacks(mCallBack)
+                .setCallbacks(mCallBack) // call back action
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
@@ -185,6 +192,8 @@ public class BuyerSignInActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                finish();
             }
         });
     }

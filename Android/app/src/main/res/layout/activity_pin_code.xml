@@ -152,10 +152,27 @@
     </com.chaos.view.PinView>
 
     <Button
-        android:id="@+id/continue_button_id"
+        android:id="@+id/submit_button_id"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/main_button"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline3">
+
+    </Button>
+
+    <Button
+        android:id="@+id/shade_button_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/sahde_button"
         android:fontFamily="@font/poppins_medium"
         android:text="Submit"
         android:textColor="@color/white"
