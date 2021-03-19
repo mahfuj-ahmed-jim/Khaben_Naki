@@ -22,6 +22,13 @@
         app:layout_constraintGuide_percent="0.3905" />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline48"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.447" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -184,5 +191,40 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3">
 
     </Button>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline48">
+
+        <TextView
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:textSize="13dp"
+            android:textColor="@color/thirds_text_color"
+            android:text="Didn't receive code?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+        <TextView
+            android:layout_marginTop="1dp"
+            android:id="@+id/resend_textView_id"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            android:textColor="@color/primary_text_color"
+            android:text="Resend code in 00:45"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

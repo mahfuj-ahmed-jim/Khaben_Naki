@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -49,6 +51,9 @@ public class BuyerSignInActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken forceResendingToken; // resend otp when fail
     private static final String TAG = "Main_Tag";
     private FirebaseAuth firebaseAuth;
+
+    // for keyboard
+    InputMethodManager imm = null;
 
     public PhoneAuthProvider.ForceResendingToken getForceResendingToken() {
         return forceResendingToken;
@@ -105,7 +110,6 @@ public class BuyerSignInActivity extends AppCompatActivity {
                 // sms verification
                 Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
                 intent.putExtra("Verify Code",verifyCode);
-                intent.putExtra("Token",forceResendingToken);
                 intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
                 startActivity(intent);
             }
@@ -118,7 +122,6 @@ public class BuyerSignInActivity extends AppCompatActivity {
                     editText.requestFocus(); // request for select edittext
 
                     // for keyboard
-                    InputMethodManager imm = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     }
@@ -172,6 +175,12 @@ public class BuyerSignInActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
+                    // hide keyboard
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }catch (Exception e){
+
+                }
                 onBackPressed();
             }
         });
@@ -186,16 +195,6 @@ public class BuyerSignInActivity extends AppCompatActivity {
                 .setCallbacks(mCallBack) // call back action
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
-        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                finish();
-            }
-        });
     }
 
 }
