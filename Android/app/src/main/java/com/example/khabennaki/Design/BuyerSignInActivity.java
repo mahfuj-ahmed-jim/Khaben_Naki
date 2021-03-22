@@ -1,10 +1,12 @@
 package com.example.khabennaki.Design;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,9 +21,18 @@ import android.widget.Filter;
 import android.widget.Toast;
 
 import com.example.khabennaki.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BuyerSignInActivity extends AppCompatActivity {
 
@@ -32,6 +43,16 @@ public class BuyerSignInActivity extends AppCompatActivity {
 
     // buttons
     private Button continue_button, shade_button, back_button;
+
+    // firebase
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack; // send otp
+    private PhoneAuthProvider.ForceResendingToken forceResendingToken; // resend otp when fail
+    private static final String TAG = "Main_Tag";
+    private FirebaseAuth firebaseAuth;
+
+    public PhoneAuthProvider.ForceResendingToken getForceResendingToken() {
+        return forceResendingToken;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +83,33 @@ public class BuyerSignInActivity extends AppCompatActivity {
         continue_button = findViewById(R.id.continue_button_id);
         shade_button = findViewById(R.id.shade_button_id);
 
+
         cross_button.setVisibility(View.GONE); // hide cross button
+        firebaseAuth = FirebaseAuth.getInstance(); // initialize firebase
+
+        mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                // instant verification
+                // no need to send the code
+            }
+
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+
+            }
+
+            @Override
+            public void onCodeSent(@NonNull String verifyCode, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                super.onCodeSent(verifyCode, forceResendingToken);
+                // sms verification
+                Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
+                intent.putExtra("Verify Code",verifyCode);
+                intent.putExtra("Token",forceResendingToken);
+                intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
+                startActivity(intent);
+            }
+        };
 
         editText_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +162,13 @@ public class BuyerSignInActivity extends AppCompatActivity {
             }
         });
 
+        continue_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPhoneNumberVerification();
+            }
+        });
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +176,26 @@ public class BuyerSignInActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void startPhoneNumberVerification() {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                .setPhoneNumber("+880"+editText.getText().toString().trim()) // set phone number
+                .setTimeout(60L, TimeUnit.SECONDS) // set timer for submit the code
+                .setActivity(this)
+                .setCallbacks(mCallBack) // call back action
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
+        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                finish();
+            }
+        });
     }
 
 }

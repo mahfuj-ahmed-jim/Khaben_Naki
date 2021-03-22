@@ -2,14 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.khabennaki">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KhabenNaki">
-        <activity android:name=".Design.PinCodeActivity"></activity>
+        android:theme="@style/Theme.KhabenNaki"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Design.HomeActivity"></activity>
+        <activity android:name=".Design.PinCodeActivity" />
         <activity android:name=".Design.BuyerSignInActivity" />
         <activity android:name=".Design.SelectActivity" />
         <activity android:name=".Design.MainActivity">

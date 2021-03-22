@@ -44,4 +44,13 @@ dependencies {
     // pin view
     implementation 'com.chaos.view:pinview:1.4.4'
 
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:26.7.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth:20.0.3'
+    implementation "androidx.browser:browser:1.2.0" // for captcha
+
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
