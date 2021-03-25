@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KhabenNaki"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Design.HomeActivity"></activity>
-        <activity android:name=".Design.PinCodeActivity" />
-        <activity android:name=".Design.BuyerSignInActivity" />
-        <activity android:name=".Design.SelectActivity" />
-        <activity android:name=".Design.MainActivity">
+        <activity android:name=".Design.Home.HomeActivity" />
+        <activity android:name=".Design.SignUp.All.PinCodeActivity" />
+        <activity android:name=".Design.SignUp.Buyer.BuyerSignInActivity" />
+        <activity android:name=".Design.SignUp.All.SelectActivity" />
+        <activity android:name=".Design.SignUp.All.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design;
+package com.example.khabennaki.Design.SignUp.All;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.khabennaki.Design.SignUp.Buyer.BuyerSignInActivity;
 import com.example.khabennaki.R;
 
 public class SelectActivity extends AppCompatActivity {
@@ -61,9 +62,18 @@ public class SelectActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String Activity = null;
                 if(buyer_button.isChecked()){
-                    startActivity(new Intent(getApplicationContext(),BuyerSignInActivity.class));
+                    Activity = "Buyer";
+
+                }else if(restaurant_button.isChecked()){
+                    Activity = "Restaurant";
+                }else if(delivery_button.isChecked()){
+                    Activity = "Delivery";
                 }
+                Intent intent = new Intent(getApplicationContext(), BuyerSignInActivity.class);
+                intent.putExtra("Activity",Activity);
+                startActivity(intent);
             }
         });
 

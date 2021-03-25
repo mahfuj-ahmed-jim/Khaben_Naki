@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Design.BuyerSignInActivity">
+    tools:context=".Design.SignUp.Buyer.BuyerSignInActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -309,6 +309,7 @@
     </TextView>
 
     <LinearLayout
+        android:id="@+id/facebook_button"
         android:focusable="true"
         android:clickable="true"
         android:weightSum="9"
@@ -343,6 +344,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/gmail_button"
         android:focusable="true"
         android:clickable="true"
         android:weightSum="9"
@@ -377,6 +379,42 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buyer_test_layout_id"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline40">
+
+        <TextView
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:textSize="13dp"
+            android:textColor="@color/thirds_text_color"
+            android:text="By signing up you are agree to our"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+        <TextView
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="13dp"
+            android:textColor="@color/primary_text_color"
+            android:text="Privacy Policy and Terms."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/others_Text_layout_id"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
