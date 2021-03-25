@@ -3,6 +3,8 @@
     package="com.example.khabennaki">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -12,11 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KhabenNaki"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Design.SignUp.InformationActivity"></activity>
         <activity android:name=".Design.Home.HomeActivity" />
-        <activity android:name=".Design.SignUp.All.PinCodeActivity" />
-        <activity android:name=".Design.SignUp.Buyer.BuyerSignInActivity" />
-        <activity android:name=".Design.SignUp.All.SelectActivity" />
-        <activity android:name=".Design.SignUp.All.MainActivity">
+        <activity android:name=".Design.SignUp.PinCodeActivity" />
+        <activity android:name=".Design.SignUp.SignInActivity" />
+        <activity android:name=".Design.SignUp.SelectActivity" />
+        <activity android:name=".Design.SignUp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

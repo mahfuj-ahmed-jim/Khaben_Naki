@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.SignUp.All;
+package com.example.khabennaki.Design.SignUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.view.PinView;
-import com.example.khabennaki.Design.SignUp.Buyer.BuyerSignInActivity;
 import com.example.khabennaki.Design.Home.HomeActivity;
 import com.example.khabennaki.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,6 +34,9 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 
 public class PinCodeActivity extends AppCompatActivity {
+
+    // for activity
+    String activity;
 
     // buttons
     private Button back_button,submit_button,shade_button;
@@ -76,13 +78,16 @@ public class PinCodeActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
+        // for checking which category is selected
+        activity = getIntent().getExtras().getString("Activity");
+
         // get values from intent
         verifyCode = getIntent().getExtras().getString("Verify Code");
         phoneNumber = getIntent().getExtras().getString("Phone Number");
 
         // get token for resend code
-        BuyerSignInActivity buyerSignInActivity = new BuyerSignInActivity();
-        forceResendingToken = buyerSignInActivity.getForceResendingToken();
+        SignInActivity signInActivity = new SignInActivity();
+        forceResendingToken = signInActivity.getForceResendingToken();
 
         // for buttons
         back_button = findViewById(R.id.back_button_id);
@@ -204,7 +209,9 @@ public class PinCodeActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
+                intent.putExtra("Activity", activity);
+                startActivity(intent);
                 c++;
                 finish();
             }

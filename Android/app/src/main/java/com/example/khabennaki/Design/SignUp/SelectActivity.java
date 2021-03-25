@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.SignUp.All;
+package com.example.khabennaki.Design.SignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.khabennaki.Design.SignUp.Buyer.BuyerSignInActivity;
 import com.example.khabennaki.R;
 
 public class SelectActivity extends AppCompatActivity {
@@ -71,7 +70,7 @@ public class SelectActivity extends AppCompatActivity {
                 }else if(delivery_button.isChecked()){
                     Activity = "Delivery";
                 }
-                Intent intent = new Intent(getApplicationContext(), BuyerSignInActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
                 intent.putExtra("Activity",Activity);
                 startActivity(intent);
             }

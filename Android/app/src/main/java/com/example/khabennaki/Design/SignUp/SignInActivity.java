@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.SignUp.Buyer;
+package com.example.khabennaki.Design.SignUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.khabennaki.Design.SignUp.All.PinCodeActivity;
 import com.example.khabennaki.R;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class BuyerSignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     // for activity
     String activity;
@@ -63,7 +62,7 @@ public class BuyerSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buyer_sign_in);
+        setContentView(R.layout.activity_sign_in);
 
         // set light mode by default
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -128,6 +127,7 @@ public class BuyerSignInActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), PinCodeActivity.class);
                 intent.putExtra("Verify Code",verifyCode);
                 intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
+                intent.putExtra("Activity",activity);
                 startActivity(intent);
             }
         };

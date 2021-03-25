@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.SignUp.All;
+package com.example.khabennaki.Design.SignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
