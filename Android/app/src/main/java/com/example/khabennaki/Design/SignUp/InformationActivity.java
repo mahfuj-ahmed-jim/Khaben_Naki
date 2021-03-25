@@ -1,8 +1,15 @@
 package com.example.khabennaki.Design.SignUp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.ExifInterface;
 import android.os.Build;
@@ -11,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.khabennaki.R;
 
@@ -21,6 +29,8 @@ import java.util.Date;
 import java.util.List;
 
 public class InformationActivity extends AppCompatActivity {
+
+    private int IMAGE_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,18 @@ public class InformationActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
-        fetchGalleryImages();
+        // permission for storage
+        if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED ){
+
+            // if permission is granted fetch pic from gallery  
+            fetchGalleryImages();
+
+        }else{
+            // permission request
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
+        }
 
     }
 
@@ -62,9 +83,24 @@ public class InformationActivity extends AppCompatActivity {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
             imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
+            Log.d("Image", imageUriList.get(i));
         }
 
         return imageUriList;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == IMAGE_PERMISSION_CODE){
+
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
+                fetchGalleryImages();
+            }else{
+                Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
 }

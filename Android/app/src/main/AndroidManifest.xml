@@ -14,17 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KhabenNaki"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Design.SignUp.InformationActivity"></activity>
-        <activity android:name=".Design.Home.HomeActivity" />
-        <activity android:name=".Design.SignUp.PinCodeActivity" />
-        <activity android:name=".Design.SignUp.SignInActivity" />
-        <activity android:name=".Design.SignUp.SelectActivity" />
-        <activity android:name=".Design.SignUp.MainActivity">
+        <activity android:name=".Design.SignUp.InformationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Design.Home.HomeActivity" />
+        <activity android:name=".Design.SignUp.PinCodeActivity" />
+        <activity android:name=".Design.SignUp.SignInActivity" />
+        <activity android:name=".Design.SignUp.SelectActivity" />
+        <activity android:name=".Design.SignUp.MainActivity">
+
         </activity>
     </application>
 
