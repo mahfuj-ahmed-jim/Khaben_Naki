@@ -16,11 +16,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.khabennaki.Design.Home.GridAdapter;
 import com.example.khabennaki.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +36,17 @@ import java.util.List;
 
 public class InformationActivity extends AppCompatActivity {
 
+    // for permission
     private int IMAGE_PERMISSION_CODE = 1;
+
+    // for bottom sheet
+    private BottomSheetBehavior bottomSheetBehavior;
+    private View bottomSheet;
+
+    // for Gridview
+    private GridView gridView;
+    private GridAdapter gridAdapter;
+    private List<String> imageUriList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +67,21 @@ public class InformationActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
+        // for bottom sheet
+        bottomSheet = findViewById(R.id.bottom_sheet_id);
+        // for gridView
+        gridView = findViewById(R.id.gridView_id);
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
+        //bottomSheetBehavior.setPeekHeight(500);
+
+
+
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED ){
 
-            // if permission is granted fetch pic from gallery  
+            // if permission is granted fetch pic from gallery
             fetchGalleryImages();
 
         }else{
@@ -64,11 +90,13 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
+        // set gridView adapter
+        gridAdapter = new GridAdapter(getApplicationContext(),imageUriList);
+        gridView.setAdapter(gridAdapter);
+
     }
 
     public List <String> fetchGalleryImages() {
-        List<String> imageUriList;
-
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
 
@@ -77,13 +105,10 @@ public class InformationActivity extends AppCompatActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                 null, orderBy + " DESC");
 
-        imageUriList = new ArrayList<String>();
-
         for (int i = 0; i < imageCursor.getCount(); i++) {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
             imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
-            Log.d("Image", imageUriList.get(i));
         }
 
         return imageUriList;

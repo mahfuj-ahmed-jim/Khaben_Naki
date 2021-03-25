@@ -50,6 +50,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.3'
     implementation "androidx.browser:browser:1.2.0" // for captcha
 
+    // for picassa
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
 
 apply plugin: 'com.android.application'
