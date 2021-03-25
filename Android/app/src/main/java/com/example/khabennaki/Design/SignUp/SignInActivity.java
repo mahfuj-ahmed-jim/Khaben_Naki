@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design;
+package com.example.khabennaki.Design.SignUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,24 +17,25 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.khabennaki.R;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class BuyerSignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
+
+    // for activity
+    String activity;
+
+    // privacy textView layout
+    private LinearLayout buyer_layout, others_layout;
 
     // editText
     private ConstraintLayout editText_layout;
@@ -43,12 +44,16 @@ public class BuyerSignInActivity extends AppCompatActivity {
 
     // buttons
     private Button continue_button, shade_button, back_button;
+    private LinearLayout facebook_button, gmail_button;
 
     // firebase
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack; // send otp
     private PhoneAuthProvider.ForceResendingToken forceResendingToken; // resend otp when fail
     private static final String TAG = "Main_Tag";
     private FirebaseAuth firebaseAuth;
+
+    // for keyboard
+    InputMethodManager imm = null;
 
     public PhoneAuthProvider.ForceResendingToken getForceResendingToken() {
         return forceResendingToken;
@@ -57,7 +62,7 @@ public class BuyerSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buyer_sign_in);
+        setContentView(R.layout.activity_sign_in);
 
         // set light mode by default
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -73,6 +78,9 @@ public class BuyerSignInActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
+        // for checking which category is selected
+        activity = getIntent().getExtras().getString("Activity");
+
         // for edittext
         editText_layout = findViewById(R.id.editText_layout_id); // editText layout
         editText = findViewById(R.id.editText_id); // edittex
@@ -82,7 +90,20 @@ public class BuyerSignInActivity extends AppCompatActivity {
         back_button = findViewById(R.id.back_button_id);
         continue_button = findViewById(R.id.continue_button_id);
         shade_button = findViewById(R.id.shade_button_id);
+        facebook_button = findViewById(R.id.facebook_button);
+        gmail_button = findViewById(R.id.gmail_button);
 
+        // for privacy textView layout
+        buyer_layout = findViewById(R.id.buyer_test_layout_id);
+        others_layout = findViewById(R.id.others_Text_layout_id);
+
+        if(!activity.equals("Buyer")){
+            facebook_button.setVisibility(View.GONE);
+            gmail_button.setVisibility(View.GONE);
+            others_layout.setVisibility(View.GONE);
+        }else{
+            buyer_layout.setVisibility(View.GONE);
+        }
 
         cross_button.setVisibility(View.GONE); // hide cross button
         firebaseAuth = FirebaseAuth.getInstance(); // initialize firebase
@@ -103,10 +124,10 @@ public class BuyerSignInActivity extends AppCompatActivity {
             public void onCodeSent(@NonNull String verifyCode, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(verifyCode, forceResendingToken);
                 // sms verification
-                Intent intent = new Intent(getApplicationContext(),PinCodeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PinCodeActivity.class);
                 intent.putExtra("Verify Code",verifyCode);
-                intent.putExtra("Token",forceResendingToken);
                 intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
+                intent.putExtra("Activity",activity);
                 startActivity(intent);
             }
         };
@@ -118,7 +139,6 @@ public class BuyerSignInActivity extends AppCompatActivity {
                     editText.requestFocus(); // request for select edittext
 
                     // for keyboard
-                    InputMethodManager imm = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     }
@@ -172,6 +192,12 @@ public class BuyerSignInActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
+                    // hide keyboard
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }catch (Exception e){
+
+                }
                 onBackPressed();
             }
         });
@@ -186,16 +212,6 @@ public class BuyerSignInActivity extends AppCompatActivity {
                 .setCallbacks(mCallBack) // call back action
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential){
-        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                finish();
-            }
-        });
     }
 
 }
