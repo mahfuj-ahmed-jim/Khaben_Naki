@@ -53,8 +53,8 @@
               <input type="text" placeholder="Username" name="sign_up_userid" />
             </div>
             <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" name="sign_up_email"/>
+               <i class="fas fa-phone-alt"></i>
+              <input type="text" placeholder="Mobile No." name="sign_up_phone"/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
