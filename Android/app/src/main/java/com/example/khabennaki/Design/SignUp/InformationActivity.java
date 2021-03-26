@@ -7,31 +7,32 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.ExifInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.khabennaki.Design.Home.GridAdapter;
+import com.example.khabennaki.Design.Home.ImageResizer;
 import com.example.khabennaki.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class InformationActivity extends AppCompatActivity {
@@ -47,6 +48,19 @@ public class InformationActivity extends AppCompatActivity {
     private GridView gridView;
     private GridAdapter gridAdapter;
     private List<String> imageUriList = new ArrayList<String>();
+    private List<Bitmap> image = new ArrayList<>();
+
+    // handler for runtime error
+    private Handler handler = new Handler();
+
+    public List<String> getImageUriList() {
+        return imageUriList;
+    }
+
+    public void addImage(Bitmap bitmap){
+        image.add(bitmap);
+        gridAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +104,11 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
+        ExampleThread exampleThread = new ExampleThread();
+        new Thread(exampleThread).start();
+
         // set gridView adapter
-        gridAdapter = new GridAdapter(getApplicationContext(),imageUriList);
+        gridAdapter = new GridAdapter(getApplicationContext(),image);
         gridView.setAdapter(gridAdapter);
 
     }
@@ -111,7 +128,31 @@ public class InformationActivity extends AppCompatActivity {
             imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
         }
 
+        try{
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+        }
+
         return imageUriList;
+    }
+
+    public File getBitMapFile(Bitmap bitmap){
+        File file = new File(Environment.getExternalStorageDirectory()+File.separator+"reduced_file");
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+        byte [] bitMapData = byteArrayOutputStream.toByteArray();
+        try{
+            file.createNewFile();
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(bitMapData);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            return file;
+        }catch (Exception e){
+
+        }
+        return file;
     }
 
     @Override
@@ -125,6 +166,38 @@ public class InformationActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_LONG).show();
             }
 
+        }
+    }
+
+    class ExampleThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            for(String string : imageUriList){
+               try{
+                   Bitmap fullSizedImae = BitmapFactory.decodeFile(string);
+                   Bitmap reduceSizedImage = ImageResizer.reduceBitmapSize(fullSizedImae, 50000);
+                   File file = getBitMapFile(reduceSizedImage);
+
+                   // get image of resized image
+                   Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+
+                   Log.d("Testing", myBitmap.toString());
+
+                   gridAdapter.addImage(myBitmap);
+
+                   handler.post(new Runnable() {
+                       @Override
+                       public void run() {
+                           gridAdapter.notifyDataSetChanged();
+                       }
+                   });
+
+                   Thread.sleep(10);
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+            }
         }
     }
 
