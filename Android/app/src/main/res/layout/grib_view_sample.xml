@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:background="@color/thirds_text_color"
         android:id="@+id/gridView_image_id"
         android:layout_width="match_parent"
         android:layout_height="180dp"

@@ -25,11 +25,13 @@ import java.util.List;
 public class GridAdapter extends BaseAdapter {
 
     private Context context;
-    public static List <Bitmap> images = new ArrayList<>();
+    private List <Bitmap> images = new ArrayList<>();
+    private int size;
 
-    public GridAdapter(Context context, List<Bitmap> images) {
+    public GridAdapter(Context context, List<Bitmap> images, int size) {
         this.context = context;
         this.images = images;
+        this.size = size;
     }
 
     public void addImage(Bitmap bitmap){
@@ -38,7 +40,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return images.size();
+        return size;
     }
 
     @Override
@@ -64,7 +66,12 @@ public class GridAdapter extends BaseAdapter {
         // set views
         ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
 
-        imageView.setImageBitmap(images.get(position));
+        if(!(position>images.size())){
+            try{
+                imageView.setImageBitmap(images.get(position));
+            }catch (Exception e){
+            }
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -108,7 +108,7 @@ public class InformationActivity extends AppCompatActivity {
         new Thread(exampleThread).start();
 
         // set gridView adapter
-        gridAdapter = new GridAdapter(getApplicationContext(),image);
+        gridAdapter = new GridAdapter(getApplicationContext(), image, imageUriList.size());
         gridView.setAdapter(gridAdapter);
 
     }
