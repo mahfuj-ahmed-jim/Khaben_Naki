@@ -2,6 +2,7 @@ package com.example.khabennaki.Design.Home;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.khabennaki.R;
 
 import java.util.ArrayList;
@@ -16,22 +18,16 @@ import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
-    private List<ImageDetails> images = new ArrayList<>();
-    private int size;
+    private List <String> imageList = new ArrayList<>();
 
-    public GridAdapter(Context context, List<ImageDetails> images, int size) {
+    public GridAdapter(Context context, List<String> imageList) {
         this.context = context;
-        this.images = images;
-        this.size = size;
-    }
-
-    public void addImage(ImageDetails image, int position){
-        images.set(position, image);
+        this.imageList = imageList;
     }
 
     @Override
     public int getCount() {
-        return size;
+        return imageList.size();
     }
 
     @Override
@@ -52,24 +48,21 @@ public class GridAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.grib_view_sample,parent,false);
 
-            // set views
-            ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
-
-            if(!(position>images.size())){
-                try{
-                    imageView.setImageBitmap(images.get(position).getImageBitmap());
-                }catch (Exception e){
-                }
-            }
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, images.get(position).toString(), Toast.LENGTH_LONG).show();
-                }
-            });
-
         }
+
+        // set views
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
+
+        Glide.with(context)
+                .load(imageList.get(position))
+                .into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, imageList.get(position).toString(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         return convertView;
     }

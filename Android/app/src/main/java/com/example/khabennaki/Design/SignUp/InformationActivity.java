@@ -10,7 +10,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,8 +23,6 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.khabennaki.Design.Home.GridAdapter;
-import com.example.khabennaki.Design.Home.ImageDetails;
-import com.example.khabennaki.Design.Home.ImageResizer;
 import com.example.khabennaki.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -47,7 +44,7 @@ public class InformationActivity extends AppCompatActivity {
     // for Gridview
     private GridView gridView;
     private GridAdapter gridAdapter;
-    private List<ImageDetails> imageUriList = new ArrayList<>();
+    private List <String> images = new ArrayList<>();
 
     // handler for runtime error
     private Handler handler = new Handler();
@@ -79,8 +76,6 @@ public class InformationActivity extends AppCompatActivity {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
         //bottomSheetBehavior.setPeekHeight(500);
 
-
-
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED ){
@@ -94,11 +89,7 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
-        SendToGridViewThread send = new SendToGridViewThread();
-        new Thread(send).start();
-
-        // set gridView adapter
-        gridAdapter = new GridAdapter(getApplicationContext(), imageUriList, imageUriList.size());
+        gridAdapter = new GridAdapter(getApplicationContext(), images); // send the images list to gridView
         gridView.setAdapter(gridAdapter);
 
     }
@@ -106,10 +97,8 @@ public class InformationActivity extends AppCompatActivity {
     // methods for
     // permission for fetch all the image from gallery
     // get all the image from gallery
-    // get bitmap of a image
-    // send the images to the gridView to show
 
-    public List <ImageDetails> fetchGalleryImages() {
+    public List <String> fetchGalleryImages() {
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
 
@@ -123,10 +112,7 @@ public class InformationActivity extends AppCompatActivity {
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
             String imageUrl = imageCursor.getString(dataColumnIndex); // get image url off every images
 
-            // add image to imageList
-            ImageDetails image = new ImageDetails(imageUrl);
-            imageUriList.add(image);
-            getFilderName(imageUriList.get(i).getImageUrl());
+            images.add(imageUrl); // add to lis
         }
 
         try{
@@ -135,7 +121,7 @@ public class InformationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
         }
 
-        return imageUriList;
+        return images;
     }
 
     public void getFilderName(String imageUrl){
@@ -160,24 +146,6 @@ public class InformationActivity extends AppCompatActivity {
         Log.d("FolderName", folderName);
     }
 
-    public File getBitMapFile(Bitmap bitmap){
-        File file = new File(Environment.getExternalStorageDirectory()+File.separator+"reduced_file");
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-        byte [] bitMapData = byteArrayOutputStream.toByteArray();
-        try{
-            file.createNewFile();
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(bitMapData);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            return file;
-        }catch (Exception e){
-
-        }
-        return file;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == IMAGE_PERMISSION_CODE){
@@ -189,43 +157,6 @@ public class InformationActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_LONG).show();
             }
 
-        }
-    }
-
-    class SendToGridViewThread extends Thread{
-        @Override
-        public void run() {
-            super.run();
-
-            int count = 0; // count loop number
-
-            for(ImageDetails image : imageUriList){
-               try{
-                   Bitmap fullSizedImae = BitmapFactory.decodeFile(image.getImageUrl());
-                   Bitmap reduceSizedImage = ImageResizer.reduceBitmapSize(fullSizedImae, 50000);
-                   File file = getBitMapFile(reduceSizedImage);
-
-                   // get image of resized image
-                   Bitmap imageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                   ImageDetails imageDetails = new ImageDetails(image.getImageUrl(), imageBitmap);
-
-                   gridAdapter.addImage(imageDetails, count);
-
-                   handler.post(new Runnable() {
-                       @Override
-                       public void run() {
-                           gridAdapter.notifyDataSetChanged();
-                       }
-                   });
-
-                   count++; //
-
-                   Thread.sleep(10);
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-            }
         }
     }
 
