@@ -24,6 +24,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.khabennaki.Design.Home.GridAdapter;
+import com.example.khabennaki.Design.Home.ImageDetails;
 import com.example.khabennaki.Design.Home.ImageResizer;
 import com.example.khabennaki.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -46,20 +47,10 @@ public class InformationActivity extends AppCompatActivity {
     // for Gridview
     private GridView gridView;
     private GridAdapter gridAdapter;
-    private List<String> imageUriList = new ArrayList<String>();
-    private List<Bitmap> image = new ArrayList<>();
+    private List<ImageDetails> imageUriList = new ArrayList<>();
 
     // handler for runtime error
     private Handler handler = new Handler();
-
-    public List<String> getImageUriList() {
-        return imageUriList;
-    }
-
-    public void addImage(Bitmap bitmap){
-        image.add(bitmap);
-        gridAdapter.notifyDataSetChanged();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +94,11 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
-        ExampleThread exampleThread = new ExampleThread();
-        new Thread(exampleThread).start();
+        SendToGridViewThread send = new SendToGridViewThread();
+        new Thread(send).start();
 
         // set gridView adapter
-        gridAdapter = new GridAdapter(getApplicationContext(), image, imageUriList.size());
+        gridAdapter = new GridAdapter(getApplicationContext(), imageUriList, imageUriList.size());
         gridView.setAdapter(gridAdapter);
 
     }
@@ -118,7 +109,7 @@ public class InformationActivity extends AppCompatActivity {
     // get bitmap of a image
     // send the images to the gridView to show
 
-    public List <String> fetchGalleryImages() {
+    public List <ImageDetails> fetchGalleryImages() {
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
 
@@ -130,8 +121,12 @@ public class InformationActivity extends AppCompatActivity {
         for (int i = 0; i < imageCursor.getCount(); i++) {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
-            imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
-            getFilderName(imageUriList.get(i));
+            String imageUrl = imageCursor.getString(dataColumnIndex); // get image url off every images
+
+            // add image to imageList
+            ImageDetails image = new ImageDetails(imageUrl);
+            imageUriList.add(image);
+            getFilderName(imageUriList.get(i).getImageUrl());
         }
 
         try{
@@ -197,22 +192,25 @@ public class InformationActivity extends AppCompatActivity {
         }
     }
 
-    class ExampleThread extends Thread{
+    class SendToGridViewThread extends Thread{
         @Override
         public void run() {
             super.run();
-            for(String string : imageUriList){
+
+            int count = 0; // count loop number
+
+            for(ImageDetails image : imageUriList){
                try{
-                   Bitmap fullSizedImae = BitmapFactory.decodeFile(string);
+                   Bitmap fullSizedImae = BitmapFactory.decodeFile(image.getImageUrl());
                    Bitmap reduceSizedImage = ImageResizer.reduceBitmapSize(fullSizedImae, 50000);
                    File file = getBitMapFile(reduceSizedImage);
 
                    // get image of resized image
-                   Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                   Bitmap imageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
-                   Log.d("Testing", myBitmap.toString());
+                   ImageDetails imageDetails = new ImageDetails(image.getImageUrl(), imageBitmap);
 
-                   gridAdapter.addImage(myBitmap);
+                   gridAdapter.addImage(imageDetails, count);
 
                    handler.post(new Runnable() {
                        @Override
@@ -220,6 +218,8 @@ public class InformationActivity extends AppCompatActivity {
                            gridAdapter.notifyDataSetChanged();
                        }
                    });
+
+                   count++; //
 
                    Thread.sleep(10);
                } catch (InterruptedException e) {

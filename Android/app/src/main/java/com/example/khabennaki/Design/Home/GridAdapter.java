@@ -16,17 +16,17 @@ import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
-    private List<Bitmap> images = new ArrayList<>();
+    private List<ImageDetails> images = new ArrayList<>();
     private int size;
 
-    public GridAdapter(Context context, List<Bitmap> images, int size) {
+    public GridAdapter(Context context, List<ImageDetails> images, int size) {
         this.context = context;
         this.images = images;
         this.size = size;
     }
 
-    public void addImage(Bitmap bitmap){
-        images.add(bitmap);
+    public void addImage(ImageDetails image, int position){
+        images.set(position, image);
     }
 
     @Override
@@ -52,24 +52,24 @@ public class GridAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.grib_view_sample,parent,false);
 
-        }
+            // set views
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
 
-        // set views
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
-
-        if(!(position>images.size())){
-            try{
-                imageView.setImageBitmap(images.get(position));
-            }catch (Exception e){
+            if(!(position>images.size())){
+                try{
+                    imageView.setImageBitmap(images.get(position).getImageBitmap());
+                }catch (Exception e){
+                }
             }
-        }
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, images.get(position).toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, images.get(position).toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
 
         return convertView;
     }

@@ -23,40 +23,128 @@
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center">
+                android:layout_height="58dp"
+                android:gravity="center_horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="44dp"
+                    android:layout_height="4dp"
                     android:background="@drawable/bottom_sheet_slider_icon">
 
                 </ImageView>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.30" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.70" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.20" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline45"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.80" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                        app:layout_constraintStart_toStartOf="@+id/guideline1">
+
+                        <TextView
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_bold"
+                            android:gravity="center"
+                            android:text="All Photos"
+                            android:textColor="@color/main_color"
+                            android:textStyle="bold">
+
+                        </TextView>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/cross_button_id"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/cancel"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline45"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="@+id/guideline44">
+
+                    </Button>
+
+                    <Button
+                        android:id="@+id/arrow_button_id"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/down_arrow"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="h,1:1"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </Button>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
-            <!--
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerViewId"
-                            android:overScrollMode="never"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                        </androidx.recyclerview.widget.RecyclerView> -->
+            <GridView
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/gridView_id"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="5dp"
+                android:numColumns="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-
-                        <GridView
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:id="@+id/gridView_id"
-                            android:verticalSpacing="5dp"
-                            android:horizontalSpacing="5dp"
-                            android:numColumns="3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </GridView>
-
+            </GridView>
 
         </LinearLayout>
 
