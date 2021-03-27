@@ -13,7 +13,7 @@
     ></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script> //firebase authentication library 
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script> <!-- firebase authentication library  -->
 
 
     <link rel="stylesheet" href="style.css" />
