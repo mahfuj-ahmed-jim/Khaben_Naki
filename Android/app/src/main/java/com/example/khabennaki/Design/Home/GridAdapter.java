@@ -2,30 +2,21 @@ package com.example.khabennaki.Design.Home;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.khabennaki.R;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
-
     private Context context;
-    private List <Bitmap> images = new ArrayList<>();
+    private List<Bitmap> images = new ArrayList<>();
     private int size;
 
     public GridAdapter(Context context, List<Bitmap> images, int size) {
@@ -82,5 +73,4 @@ public class GridAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 }

@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -113,6 +112,12 @@ public class InformationActivity extends AppCompatActivity {
 
     }
 
+    // methods for
+    // permission for fetch all the image from gallery
+    // get all the image from gallery
+    // get bitmap of a image
+    // send the images to the gridView to show
+
     public List <String> fetchGalleryImages() {
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
@@ -126,6 +131,7 @@ public class InformationActivity extends AppCompatActivity {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
             imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
+            getFilderName(imageUriList.get(i));
         }
 
         try{
@@ -135,6 +141,28 @@ public class InformationActivity extends AppCompatActivity {
         }
 
         return imageUriList;
+    }
+
+    public void getFilderName(String imageUrl){
+        String reverseName = "";
+        String folderName = "";
+
+        for(int i=imageUrl.length()-1; i>=0; i--){
+            if(imageUrl.charAt(i)=='/'){
+                i--;
+                while(imageUrl.charAt(i)!='/'){
+                    reverseName = reverseName + imageUrl.charAt(i);
+                    i--;
+                }
+                break;
+            }
+        }
+
+        for(int i=reverseName.length()-1; i>=0; i--){
+            folderName = folderName + reverseName.charAt(i);
+        }
+
+        Log.d("FolderName", folderName);
     }
 
     public File getBitMapFile(Bitmap bitmap){

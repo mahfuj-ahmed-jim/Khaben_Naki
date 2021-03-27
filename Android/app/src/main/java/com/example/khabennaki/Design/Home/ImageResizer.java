@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 public class ImageResizer {
-
     //For Image Size 640*480, use MAX_SIZE =  307200 as 640*480 307200
     //private static long MAX_SIZE = 360000;
     //private static long THUMB_SIZE = 6553;
@@ -38,5 +37,4 @@ public class ImageResizer {
         int requiredWidth = (int) Math.round(bitmapWidth / ratio);
         return Bitmap.createScaledBitmap(bitmap, requiredWidth, requiredHeight, true);
     }
-
 }
