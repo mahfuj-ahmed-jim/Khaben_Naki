@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design;
+package com.example.khabennaki.Design.Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 

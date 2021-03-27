@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design;
+package com.example.khabennaki.Design.SignUp;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
