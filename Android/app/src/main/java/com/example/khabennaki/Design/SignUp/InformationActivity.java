@@ -1,5 +1,6 @@
 package com.example.khabennaki.Design.SignUp;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -8,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
@@ -20,6 +23,7 @@ import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.khabennaki.Design.Home.ImageFromGallery.GridAdapter;
@@ -38,8 +42,8 @@ public class InformationActivity extends AppCompatActivity {
     // for bottom sheet
     private BottomSheetBehavior bottomSheetBehavior;
     private View bottomSheet;
-    private Button crossButton, arrowButton;
-    private boolean CHECK_ARROW_BUTTON_ROTATION_STATE = false;
+    private TextView crossButton, arrowButton; // use as button
+    private boolean SHOW_ALBUMS = false;
     private View layoutView;
     private RecyclerView recyclerView;
 
@@ -95,21 +99,34 @@ public class InformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bottomSheetBehavior.setHideable(true); // make bottom sheet hideAble
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // hide the bottom sheet
+                //bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // hide the bottom sheet
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
             }
         });
 
         arrowButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                if(CHECK_ARROW_BUTTON_ROTATION_STATE==false){
-                    arrowButton.setRotation(180); // rotate the button
-                    CHECK_ARROW_BUTTON_ROTATION_STATE = true; // change the state
+                if(SHOW_ALBUMS==false){
+                    SHOW_ALBUMS = true; // change the state
                     slideUp(layoutView); // slide up animation for recyclerView
+
+                    // thread to make smooth
+                    Thread background = new Thread() {
+                        public void run() {
+                            try {
+                                sleep(500);
+                                gridView.setVisibility(View.GONE); // hide gridView
+                            } catch (Exception e) {
+                            }
+                        }
+                    };
+                    background.start();
                 }else{
-                    arrowButton.setRotation(0); // rotate to initial position
-                    CHECK_ARROW_BUTTON_ROTATION_STATE = false; // change the state
+                    SHOW_ALBUMS = false; // change the state
                     slideDown(layoutView); // slide down animation for recyclerView
+                    gridView.setVisibility(View.VISIBLE); // show gridView
                 }
             }
         });
@@ -120,7 +137,6 @@ public class InformationActivity extends AppCompatActivity {
     // method for initialize activity on start
     public void initialization(){
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
-        layoutView.setVisibility(View.GONE); // hide the recyclerView
 
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
