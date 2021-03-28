@@ -9,26 +9,22 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.khabennaki.Design.Home.GridAdapter;
+import com.example.khabennaki.Design.Home.ImageFromGallery.GridAdapter;
+import com.example.khabennaki.Design.Home.ImageFromGallery.ImageFolders;
 import com.example.khabennaki.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +36,21 @@ public class InformationActivity extends AppCompatActivity {
     // for bottom sheet
     private BottomSheetBehavior bottomSheetBehavior;
     private View bottomSheet;
+    private Button crossButton, arrowButton;
+    private boolean CHECK_ARROW_BUTTON_ROTATION_STATE = false;
 
-    // for Gridview
+    // for GridView
     private GridView gridView;
     private GridAdapter gridAdapter;
     private List <String> images = new ArrayList<>();
 
-    // handler for runtime error
-    private Handler handler = new Handler();
+    // for recyclerView bottom sheet
+    private BottomSheetBehavior recyclerViewBottomSheetBehavior;
+    private View recyclerViewBottomSheet;
+
+    // for folder RecyclerView
+    private List <String> allFolderPaths = new ArrayList<>();
+    private List <ImageFolders> imageFoldersList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +73,16 @@ public class InformationActivity extends AppCompatActivity {
 
         // for bottom sheet
         bottomSheet = findViewById(R.id.bottom_sheet_id);
+        crossButton = findViewById(R.id.cross_button_id);
+        arrowButton = findViewById(R.id.arrow_button_id);
+
         // for gridView
         gridView = findViewById(R.id.gridView_id);
+        // recyclerViewBottomSheet
+        recyclerViewBottomSheet = findViewById(R.id.recyclerViewBottomSheet_id);
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
-        //bottomSheetBehavior.setPeekHeight(500);
+        recyclerViewBottomSheetBehavior = BottomSheetBehavior.from(recyclerViewBottomSheet); // recyclerView bottom sheet behavior
 
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
@@ -92,13 +100,42 @@ public class InformationActivity extends AppCompatActivity {
         gridAdapter = new GridAdapter(getApplicationContext(), images); // send the images list to gridView
         gridView.setAdapter(gridAdapter);
 
+        for(ImageFolders imageFolders : imageFoldersList){
+            int total = imageFolders.getTotalImages();
+            Log.d("FolderNames", imageFolders.getFolderName()+" "+total);
+        }
+
+        // on click listener for buttons
+
+        // for bottom sheet buttons
+        crossButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetBehavior.setHideable(true);
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            }
+        });
+
+        arrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(CHECK_ARROW_BUTTON_ROTATION_STATE==false){
+                    arrowButton.setRotation(180); // rotate the button
+                    CHECK_ARROW_BUTTON_ROTATION_STATE = true; // change the state
+                }else{
+                    arrowButton.setRotation(0); // rotate to initial position
+                    CHECK_ARROW_BUTTON_ROTATION_STATE = false; // change the state
+                }
+            }
+        });
+
     }
 
     // methods for
     // permission for fetch all the image from gallery
     // get all the image from gallery
+    public void fetchGalleryImages() {
 
-    public List <String> fetchGalleryImages() {
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
 
@@ -108,42 +145,62 @@ public class InformationActivity extends AppCompatActivity {
                 null, orderBy + " DESC");
 
         for (int i = 0; i < imageCursor.getCount(); i++) {
-            imageCursor.moveToPosition(i);
+            imageCursor.moveToPosition(i); // check all the image from the phone
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
             String imageUrl = imageCursor.getString(dataColumnIndex); // get image url off every images
 
-            images.add(imageUrl); // add to lis
+            images.add(imageUrl); // add to imageList
+
+            String folderPath = getFolderPath(imageUrl);
+
+            // if already the folder exists in the list update the total number of images
+            if(allFolderPaths.contains(folderPath)){
+                int index = 0; // to get the actual index of the folder in  imageFoldersList
+
+                for(ImageFolders imageFolders : imageFoldersList){
+
+                    if(folderPath.equals(imageFolders.getFolderName())){ // find out the original index number
+                        ImageFolders updateFolderDetails = new ImageFolders(folderPath,
+                                imageFolders.getTotalImages()+1, imageFolders.getLastImageUrl()); // update the image total number only
+
+                        imageFoldersList.set(index, updateFolderDetails); // set the update
+                        break;
+                    }
+
+                    index++;
+
+                }
+            }else{ // if the folder don't exists in the list
+                allFolderPaths.add(folderPath); // at to the name checker list
+                imageFoldersList.add(new ImageFolders(folderPath, 1, imageUrl)); // set the folderPath, initial image, first imageUrl
+            }
+
         }
 
-        try{
-
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
-        }
-
-        return images;
     }
 
-    public void getFilderName(String imageUrl){
-        String reverseName = "";
-        String folderName = "";
+    public String getFolderPath(String imageUrl){
+        String reversePath = "";
+        String folderPath = "";
 
+        // get the path in a reverse order
         for(int i=imageUrl.length()-1; i>=0; i--){
             if(imageUrl.charAt(i)=='/'){
                 i--;
-                while(imageUrl.charAt(i)!='/'){
-                    reverseName = reverseName + imageUrl.charAt(i);
+                while(i>=0){
+                    reversePath = reversePath + imageUrl.charAt(i);
                     i--;
                 }
                 break;
             }
         }
 
-        for(int i=reverseName.length()-1; i>=0; i--){
-            folderName = folderName + reverseName.charAt(i);
+        // get the actual pathh
+        for(int i=reversePath.length()-1; i>=0; i--){
+            folderPath = folderPath + reversePath.charAt(i);
         }
 
-        Log.d("FolderName", folderName);
+        return folderPath;
     }
 
     @Override
@@ -152,7 +209,7 @@ public class InformationActivity extends AppCompatActivity {
 
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
-                fetchGalleryImages();
+                fetchGalleryImages(); // if permission granted fetch all the images from gallery
             }else{
                 Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_LONG).show();
             }

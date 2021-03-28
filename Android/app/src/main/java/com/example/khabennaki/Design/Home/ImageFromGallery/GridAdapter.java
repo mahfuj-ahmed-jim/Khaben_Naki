@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.Home;
+package com.example.khabennaki.Design.Home.ImageFromGallery;
 
 import android.content.Context;
 import android.graphics.Bitmap;
