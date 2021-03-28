@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -38,15 +40,13 @@ public class InformationActivity extends AppCompatActivity {
     private View bottomSheet;
     private Button crossButton, arrowButton;
     private boolean CHECK_ARROW_BUTTON_ROTATION_STATE = false;
+    private View layoutView;
+    private RecyclerView recyclerView;
 
     // for GridView
     private GridView gridView;
     private GridAdapter gridAdapter;
     private List <String> images = new ArrayList<>();
-
-    // for recyclerView bottom sheet
-    private BottomSheetBehavior recyclerViewBottomSheetBehavior;
-    private View recyclerViewBottomSheet;
 
     // for folder RecyclerView
     private List <String> allFolderPaths = new ArrayList<>();
@@ -75,14 +75,52 @@ public class InformationActivity extends AppCompatActivity {
         bottomSheet = findViewById(R.id.bottom_sheet_id);
         crossButton = findViewById(R.id.cross_button_id);
         arrowButton = findViewById(R.id.arrow_button_id);
+        layoutView = findViewById(R.id.recyclerViewLayout_id);
+        recyclerView = findViewById(R.id.recyclerView_id);
 
         // for gridView
         gridView = findViewById(R.id.gridView_id);
-        // recyclerViewBottomSheet
-        recyclerViewBottomSheet = findViewById(R.id.recyclerViewBottomSheet_id);
 
+        initialization(); // initialize activity on start
+
+        for(ImageFolders imageFolders : imageFoldersList){
+            int total = imageFolders.getTotalImages();
+            Log.d("FolderNames", imageFolders.getFolderName()+" "+total);
+        }
+
+        // on click listener for buttons
+
+        // for bottom sheet buttons
+        crossButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetBehavior.setHideable(true); // make bottom sheet hideAble
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // hide the bottom sheet
+            }
+        });
+
+        arrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(CHECK_ARROW_BUTTON_ROTATION_STATE==false){
+                    arrowButton.setRotation(180); // rotate the button
+                    CHECK_ARROW_BUTTON_ROTATION_STATE = true; // change the state
+                    slideUp(layoutView); // slide up animation for recyclerView
+                }else{
+                    arrowButton.setRotation(0); // rotate to initial position
+                    CHECK_ARROW_BUTTON_ROTATION_STATE = false; // change the state
+                    slideDown(layoutView); // slide down animation for recyclerView
+                }
+            }
+        });
+
+    }
+
+
+    // method for initialize activity on start
+    public void initialization(){
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
-        recyclerViewBottomSheetBehavior = BottomSheetBehavior.from(recyclerViewBottomSheet); // recyclerView bottom sheet behavior
+        layoutView.setVisibility(View.GONE); // hide the recyclerView
 
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
@@ -97,38 +135,35 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
+        // set up gridView
         gridAdapter = new GridAdapter(getApplicationContext(), images); // send the images list to gridView
         gridView.setAdapter(gridAdapter);
+    }
 
-        for(ImageFolders imageFolders : imageFoldersList){
-            int total = imageFolders.getTotalImages();
-            Log.d("FolderNames", imageFolders.getFolderName()+" "+total);
-        }
+    // methods for recyclerView
+    // slide the view from below itself to the current position
+    public void slideUp(View view){
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
 
-        // on click listener for buttons
-
-        // for bottom sheet buttons
-        crossButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setHideable(true);
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            }
-        });
-
-        arrowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(CHECK_ARROW_BUTTON_ROTATION_STATE==false){
-                    arrowButton.setRotation(180); // rotate the button
-                    CHECK_ARROW_BUTTON_ROTATION_STATE = true; // change the state
-                }else{
-                    arrowButton.setRotation(0); // rotate to initial position
-                    CHECK_ARROW_BUTTON_ROTATION_STATE = false; // change the state
-                }
-            }
-        });
-
+    // slide the view from its current position to below itself
+    public void slideDown(View view){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
     }
 
     // methods for
@@ -152,6 +187,12 @@ public class InformationActivity extends AppCompatActivity {
             images.add(imageUrl); // add to imageList
 
             String folderPath = getFolderPath(imageUrl);
+
+            // set for "All Photos"
+            if(i==0){
+                allFolderPaths.add("All Photos");
+                imageFoldersList.add(new ImageFolders("All Photos", imageCursor.getCount(), imageUrl));
+            }
 
             // if already the folder exists in the list update the total number of images
             if(allFolderPaths.contains(folderPath)){
