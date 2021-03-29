@@ -7,30 +7,47 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.ExifInterface;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.khabennaki.Design.Home.GridAdapter;
 import com.example.khabennaki.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class InformationActivity extends AppCompatActivity {
 
+    // for permission
     private int IMAGE_PERMISSION_CODE = 1;
+
+    // for bottom sheet
+    private BottomSheetBehavior bottomSheetBehavior;
+    private View bottomSheet;
+
+    // for Gridview
+    private GridView gridView;
+    private GridAdapter gridAdapter;
+    private List <String> images = new ArrayList<>();
+
+    // handler for runtime error
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +68,19 @@ public class InformationActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
+        // for bottom sheet
+        bottomSheet = findViewById(R.id.bottom_sheet_id);
+        // for gridView
+        gridView = findViewById(R.id.gridView_id);
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
+        //bottomSheetBehavior.setPeekHeight(500);
+
         // permission for storage
         if(ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(InformationActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED ){
 
-            // if permission is granted fetch pic from gallery  
+            // if permission is granted fetch pic from gallery
             fetchGalleryImages();
 
         }else{
@@ -64,11 +89,16 @@ public class InformationActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},IMAGE_PERMISSION_CODE);
         }
 
+        gridAdapter = new GridAdapter(getApplicationContext(), images); // send the images list to gridView
+        gridView.setAdapter(gridAdapter);
+
     }
 
-    public List <String> fetchGalleryImages() {
-        List<String> imageUriList;
+    // methods for
+    // permission for fetch all the image from gallery
+    // get all the image from gallery
 
+    public List <String> fetchGalleryImages() {
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID}; //get all columns of type images
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN; //order data by date
 
@@ -77,16 +107,43 @@ public class InformationActivity extends AppCompatActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                 null, orderBy + " DESC");
 
-        imageUriList = new ArrayList<String>();
-
         for (int i = 0; i < imageCursor.getCount(); i++) {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA); //get column index
-            imageUriList.add(imageCursor.getString(dataColumnIndex)); //get Image from column index
-            Log.d("Image", imageUriList.get(i));
+            String imageUrl = imageCursor.getString(dataColumnIndex); // get image url off every images
+
+            images.add(imageUrl); // add to lis
         }
 
-        return imageUriList;
+        try{
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+        }
+
+        return images;
+    }
+
+    public void getFilderName(String imageUrl){
+        String reverseName = "";
+        String folderName = "";
+
+        for(int i=imageUrl.length()-1; i>=0; i--){
+            if(imageUrl.charAt(i)=='/'){
+                i--;
+                while(imageUrl.charAt(i)!='/'){
+                    reverseName = reverseName + imageUrl.charAt(i);
+                    i--;
+                }
+                break;
+            }
+        }
+
+        for(int i=reverseName.length()-1; i>=0; i--){
+            folderName = folderName + reverseName.charAt(i);
+        }
+
+        Log.d("FolderName", folderName);
     }
 
     @Override
