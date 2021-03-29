@@ -9,3 +9,14 @@ sign_up_btn.addEventListener("click", () => {
 sign_in_btn.addEventListener("click", () => {
   container.classList.remove("sign-up-mode");
 });
+
+
+// firebase verification js
+// window.onload=function(){
+// 	renfer();
+// }
+
+// function render() {
+// 	window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recapthca-container');
+// 	recaptchaVerifier.render();
+// }

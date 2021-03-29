@@ -14,6 +14,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script> <!-- firebase authentication library  -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 
 
     <link rel="stylesheet" href="style.css" />
@@ -46,21 +47,22 @@
               
             </div>
           </form>
-          <form action="Signin_Backend.php" class="sign-up-form">
+          <form action="#" class="sign-up-form">
             <h2 class="title">Sign up</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" name="sign_up_userid" />
+              <input type="text" placeholder="Username" id="sign_up_userid" />
             </div>
             <div class="input-field">
                <i class="fas fa-phone-alt"></i>
-              <input type="text" placeholder="Mobile No." name="sign_up_phone"/>
+              <input type="text" placeholder="Mobile No." id="sign_up_phone"/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" name="sign_up_passward" />
+              <input type="password" placeholder="Password" id="sign_up_passward" />
             </div>
-            <input type="submit" class="btn" value="Sign up" name="signupbtn" />
+            <div id = "recapthca-container"></div>
+            <button type="button" class="btn" id="signupbtn"> Sign up </button>
             <p class="social-text">Or Sign up with social platforms</p>
             <div class="social-media">
               <a href="#" class="social-icon social-icon-fb">
@@ -101,7 +103,43 @@
         </div>
       </div>
     </div>
+    
+    <script>
+      
+      var signupphone = document.getElementById("signupbtn");
+      var phonenumber = document.getElementById("sign_up_phone");
+      var phonenumber = document.getElementById("sign_up_phone");
 
+      signupphone.onclick = function(){
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'normal',
+            'callback': (response) => {
+                  // reCAPTCHA solved, allow signInWithPhoneNumber.
+                  // ...
+              },
+            'expired-callback': () => {
+                  // Response expired. Ask user to solve reCAPTCHA again.
+                  // ...
+              }
+        });
+
+        var recaptcha = window.recaptchaVerifier;
+
+        firebase.auth().signInWithPhoneNumber(phonenumber.value,recaptcha)
+        .then(function(response) {
+          console.log(response);
+        
+        })
+        .catch(function(error) {
+          console.log(error);
+          // Error; SMS not sent
+          // ...
+        });
+    }
+
+    </script>
+
+    <!-- <script src="verification.js"></script> -->
     <script src="app.js"></script>
   </body>
 </html>
