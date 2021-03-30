@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Design.SignUp.InformationActivity">
 
+    <Button
+        android:id="@+id/button_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+    </Button>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cordinator_layout_id"
         android:layout_width="0dp"

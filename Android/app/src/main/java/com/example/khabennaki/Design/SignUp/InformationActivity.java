@@ -49,7 +49,7 @@ public class InformationActivity extends AppCompatActivity {
 
     // for bottom sheet
     private BottomSheetBehavior bottomSheetBehavior;
-    private View bottomSheet;
+    private View bottomSheet, coordinateLayout;
     private TextView crossButton, albumButton; // use as button
     private Button arrowButton;
     private TextView selectedFolderName;
@@ -94,6 +94,8 @@ public class InformationActivity extends AppCompatActivity {
         albumButton = findViewById(R.id.album_button_id);
         arrowButton = findViewById(R.id.arrow_button_id);
         selectedFolderName = findViewById(R.id.selectedFolderName_textView_Id);
+        coordinateLayout = findViewById(R.id.cordinator_layout_id);
+        Button button = findViewById(R.id.button_id);
         // for recyclerView
         layoutView = findViewById(R.id.recyclerView_layout_id);
 
@@ -102,6 +104,13 @@ public class InformationActivity extends AppCompatActivity {
         gridView = findViewById(R.id.gridView_id);
 
         initialization(); // initialize activity on start
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideUp(coordinateLayout); // visible the coordinator layout
+            }
+        });
 
         // recyclerView action return
         receiver = new BroadcastReceiver() {
@@ -113,6 +122,7 @@ public class InformationActivity extends AppCompatActivity {
                 gridAdapter.setImageList(tempImages, selectedFolderPath);
                 gridAdapter.notifyDataSetChanged();
                 arrowButton.performClick();
+                gridView.setFocusable(true);
             }
         };
 
@@ -125,8 +135,7 @@ public class InformationActivity extends AppCompatActivity {
         crossButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetBehavior.setHideable(true); // make bottom sheet hideAble
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // hide the bottom sheet
+                slideDown(coordinateLayout); // hide coordinator layout
             }
         });
 
@@ -180,6 +189,8 @@ public class InformationActivity extends AppCompatActivity {
     public void initialization(){
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
         albumButton.setVisibility(View.GONE); // hide album button
+
+        coordinateLayout.setVisibility(View.GONE);
 
         // for recyclerView
         //layoutView.setVisibility(View.GONE); // hide recyclerView
@@ -329,4 +340,13 @@ public class InformationActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("WrongConstant")
+    @Override
+    public void onBackPressed() {
+        if(coordinateLayout.getVisibility()==0){
+            slideDown(coordinateLayout);
+        }else{
+            super.onBackPressed();
+        }
+    }
 }
