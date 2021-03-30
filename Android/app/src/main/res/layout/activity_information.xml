@@ -7,6 +7,7 @@
     tools:context=".Design.SignUp.InformationActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cordinator_layout_id"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +91,7 @@
 
                         <LinearLayout
                             android:id="@+id/linearLayout"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:orientation="vertical"
@@ -98,7 +99,8 @@
                             app:layout_constraintStart_toStartOf="@+id/guideline1">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/selectedFolderName_textView_Id"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
@@ -127,14 +129,30 @@
 
                         </TextView>
 
-                        <TextView
+                        <Button
                             android:id="@+id/arrow_button_id"
                             android:gravity="center"
                             android:fontFamily="@font/poppins_regular"
                             android:textColor="@color/primary_text_color"
                             android:textSize="15dp"
+                            android:background="@drawable/down_arrow"
+                            android:layout_width="30dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="h,1:1"
+                            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                        </Button>
+
+                        <TextView
+                            android:id="@+id/album_button_id"
+                            android:gravity="center"
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="@color/primary_text_color"
+                            android:textSize="15dp"
                             android:background="@color/background_color"
-                            android:text="Album"
+                            android:text="Albums"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -163,11 +181,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/recyclerViewLayout_id"
+                android:id="@+id/recyclerView_layout_id"
                 android:layout_marginTop="58dp"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:background="@color/background_color"

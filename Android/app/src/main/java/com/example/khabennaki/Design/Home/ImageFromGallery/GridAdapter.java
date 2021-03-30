@@ -3,6 +3,7 @@ package com.example.khabennaki.Design.Home.ImageFromGallery;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,17 @@ import java.util.List;
 public class GridAdapter extends BaseAdapter {
     private Context context;
     private List <String> imageList = new ArrayList<>();
+    private List<String> selectedImageList = new ArrayList<>();
 
     public GridAdapter(Context context, List<String> imageList) {
         this.context = context;
         this.imageList = imageList;
+        this.selectedImageList = imageList;
     }
 
     @Override
     public int getCount() {
-        return imageList.size();
+        return selectedImageList.size();
     }
 
     @Override
@@ -54,16 +57,59 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageView = (ImageView) convertView.findViewById(R.id.gridView_image_id);
 
         Glide.with(context)
-                .load(imageList.get(position))
+                .load(selectedImageList.get(position))
                 .into(imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, imageList.get(position).toString(), Toast.LENGTH_LONG).show();
+                try{
+                    Toast.makeText(context, selectedImageList.get(position).toString(), Toast.LENGTH_LONG).show();
+                }catch (Exception e){
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         return convertView;
     }
+
+    public void setImageList(List <String> list, String selectedFolderPath){
+        selectedImageList.clear();
+        if(selectedFolderPath.equals("/All Photos")){
+            selectedImageList.addAll(list);
+        }else{
+            for(String temp : list){
+                if(getFolderPath(temp).equals(selectedFolderPath)){
+                    selectedImageList.add(temp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public String getFolderPath(String imageUrl){
+        String reversePath = "";
+        String folderPath = "";
+
+        // get the path in a reverse order
+        for(int i=imageUrl.length()-1; i>=0; i--){
+            if(imageUrl.charAt(i)=='/'){
+                i--;
+                while(i>=0){
+                    reversePath = reversePath + imageUrl.charAt(i);
+                    i--;
+                }
+                break;
+            }
+        }
+
+        // get the actual pathh
+        for(int i=reversePath.length()-1; i>=0; i--){
+            folderPath = folderPath + reversePath.charAt(i);
+        }
+
+        return folderPath;
+    }
+
 }
