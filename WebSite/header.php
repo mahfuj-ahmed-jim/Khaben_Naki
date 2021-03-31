@@ -70,10 +70,10 @@
 </head>
 <body>
     <header>
-        
+          <div class="cont" style="padding-bottom: 100px;">
             <div style="background-color: black;">
                 
-              <img src="img/khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
+              <img src="khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
             
             </div>
 
@@ -105,7 +105,7 @@
                     </div>
                   </li>
                   
-                  <form class="form-inline my-2 my-lg-0" style=" padding-top: 10px;">
+                  <form class="form-inline my-2 my-lg-0" id="srch" style=" padding-top: 10px;">
                     <input class="form-control mr-sm-2"  type="search" placeholder="Search" aria-label="Search">
                   </form>
                   <button style= "width: 40px; height: 40px; margin-top: 10px; background-color: black; color:#F15B5D;"><i class="fas fa-search"></i></button>
@@ -113,7 +113,7 @@
                   <li class="nav-item dropdown navbar-right" style="margin-left: 200px; float: right;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Signup/Login</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 20px;">
-                      <a class="dropdown-item" href="Signin_Login.php">As a Foodie</a>
+                      <a class="dropdown-item" href="#">As a Foodie</a>
                       <a class="dropdown-item" href="#">As a Restaurant</a>
                       <a class="dropdown-item" href="#">As a Rider</a>
                     </div>
@@ -130,7 +130,7 @@
             <div class="box-2"></div>
           </div>
 
-
+        </div>
     </header>
     
     
