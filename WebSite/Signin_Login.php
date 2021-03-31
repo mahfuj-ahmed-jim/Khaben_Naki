@@ -1,5 +1,6 @@
 <?php 
     include('DB_connection.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +22,9 @@
     <title>Login & Sign up Form</title>
   </head>
   <body>
+    <div>
+      <!-- <?php include('header.php'); ?> -->
+    </div>
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
