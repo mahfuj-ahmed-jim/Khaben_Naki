@@ -1,6 +1,6 @@
 <?php 
     include('DB_connection.php');
-
+    include('header.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,6 @@
   </head>
   <body>
     <div>
-      <!-- <?php include('header.php'); ?> -->
     </div>
     <div class="container">
       <div class="forms-container">
@@ -145,5 +144,8 @@
 
     <!-- <script src="verification.js"></script> -->
     <script src="app.js"></script>
+    <div>
+      <?php include('footer.php'); ?>
+    </div>
   </body>
 </html>

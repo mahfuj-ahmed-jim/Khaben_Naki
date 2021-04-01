@@ -73,7 +73,7 @@
           <div class="cont" style="padding-bottom: 100px;">
             <div style="background-color: black;">
                 
-              <img src="khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
+              <img src="img/khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
             
             </div>
 
@@ -84,13 +84,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Hot Deals</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Restaurants</a>
+                  <a class="nav-link" href="Restaurant.php">Restaurants</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Posts</a>
@@ -113,7 +113,7 @@
                   <li class="nav-item dropdown navbar-right" style="margin-left: 200px; float: right;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Signup/Login</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 20px;">
-                      <a class="dropdown-item" href="#">As a Foodie</a>
+                      <a class="dropdown-item" href="Signin_Login.php">As a Foodie</a>
                       <a class="dropdown-item" href="#">As a Restaurant</a>
                       <a class="dropdown-item" href="#">As a Rider</a>
                     </div>
