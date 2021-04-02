@@ -11,7 +11,11 @@
  <!-- <script src="app.js"></script> -->
 <!--  <script src="https://www.google.com/recaptcha/api.js?render=reCAPTCHA_site_key"></script> -->
  
- <h1> hellow</h1>
+
+ <div class="text-center" style= "background-color: #F15B5D; color: #ffff">
+ <h1> hellow</h1> </div>
+ 
+
  <div id = "recapthca-container"></div>
  <!-- <script src="verification.js"></script> -->
 <!-- <script >

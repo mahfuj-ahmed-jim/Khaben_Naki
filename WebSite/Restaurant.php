@@ -54,7 +54,7 @@
 </div>
 
 <div class= "Info Text" style="padding-top: 20px;">
-  <h2 class="text-center"style= "color: #F15B5D;"> Hotdog Queen</h2>
+  <h2 class="text-center"> Hotdog Queen</h2>
   <p class= "text-center" >Address: House-397/B 1st Floor, Shahid Baki Sarak, Chowdhury Para, Khilgaon</p>
   <p class= " text-center pt-3" style="border-top: dashed gray;"> Famous For Hotdogs |  Delivery Charge ৳30</p>
    
@@ -65,7 +65,7 @@
    </div>
   </div>
   <div class="col-lg-6 text-center">
-      <a href=""><button class="btn btn-warning btn-lg text-dark"><i style= "color:black" class="fas fa-shopping-cart"></i>My Cart</div></button></a>
+      <a href="cart.php"><button class="btn btn-warning btn-lg text-dark"><i style= "color:black" class="fas fa-shopping-cart"></i>My Cart</div></button></a>
 </div>  
  
 </div>  
@@ -76,8 +76,8 @@
     <h3 class="text-center">Menu</h3>
 
 
-    <div class="row justify-content-center pt-3">
-        <h4 class="text-center pb-2">Hotdogs</h4>
+    <div class="row justify-content-center pt-3" >
+        <h4 class="text-center pb-2" >Hotdogs</h4>
 
         <div class="col-lg-3 ani">
                 <div class="card bg-white">
@@ -115,7 +115,7 @@
     </div>
 
     <div class="row justify-content-center pt-3">
-        <h4 class="text-center pb-2">Burgers</h4>
+        <h4 class="text-center pb-2 pt-3">Burgers</h4>
 
         <div class="col-lg-3 ani">
                 <div class="card bg-white">
@@ -155,7 +155,7 @@
 
 
     <div class="row justify-content-center pt-3 ">
-        <h4 class="text-center pb-2 pt-5">Beverages</h4>
+        <h4 class="text-center pb-2 pt-3">Beverages</h4>
 
         <div class="col-lg-3 ani">
                 <div class="card bg-white">
