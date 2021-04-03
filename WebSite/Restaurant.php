@@ -38,7 +38,7 @@
 
 </head>
 <body>
-   <h1 class="text-center pb-3" style= "color: #F15B5D;">Restaurant Information</h1>
+   <h1 class="text-center pb-3" style= "color: #F15B5D; margin-top: -80px;">Restaurant Information</h1>
    <div class="Info pics">
       <div class="cover">
          <img src="img/chillox cover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 660px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -66,7 +66,9 @@
       </div>
    </div>
    <div class= "Menu">
-      <h3 class="text-center">Menu</h3>
+     <div class= "container" style="background-color: #F15B5D; color: #fff;" >
+          <h3 class="text-center">Menu</h3>
+      </div>
       <div class="row justify-content-center pt-3" >
          <h4 class="text-center pb-2" >Hotdogs</h4>
          <div class="col-lg-3 ani">
