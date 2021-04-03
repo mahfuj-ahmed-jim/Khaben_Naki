@@ -78,108 +78,102 @@
 
 </head>
 <body>
-       
-
-  <div class="container cart-page" style="margin-top: -40px;">
-
-        <table>
+   <div class="container cart-page" style="margin-top: -40px;">
+      <table>
+         <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+         </tr>
+         <tr>
+            <td>
+               <div class="cart-info">
+                  <img src="img/mushroom.png" alt="">
+                  <div>
+                     <p>
+                     <h6>Double Mushroom Swiss</h6>
+                     </p>
+                     <small>Price: ৳ 800</small>
+                     <br>
+                     <a href="#">Remove</a>
+                  </div>
+               </div>
+            </td>
+            <td><input type="number" value="1" min="1"></td>
+            <td>৳ 800</td>
+         </tr>
+         <tr>
+            <td>
+               <div class="cart-info">
+                  <img src="img/fanta.png" alt="">
+                  <div>
+                     <p>
+                     <h6>Fanta Grape</h6>
+                     </p>
+                     <small>Price: ৳ 800</small>
+                     <br>
+                     <a href="#">Remove</a>
+                  </div>
+               </div>
+            </td>
+            <td><input type="number" value="1" min="1"></td>
+            <td>৳ 600</td>
+         </tr>
+         <tr>
+            <td>
+               <div class="cart-info">
+                  <img src="img/whooper.png" alt="">
+                  <div>
+                     <p>
+                     <h6>Whooper</h6>
+                     </p>
+                     <small>Price: ৳ 800</small>
+                     <br>
+                     <a href="#">Remove</a>
+                  </div>
+               </div>
+            </td>
+            <td><input type="number" value="1" min="1"></td>
+            <td>৳ 800</td>
+         </tr>
+         <tr>
+            <td>
+               <div class="cart-info">
+                  <img src="img/milo.png" alt="">
+                  <div>
+                     <p>
+                     <h6>Milo Choco Juice</h6>
+                     </p>
+                     <small>Price: ৳ 600</small>
+                     <br>
+                     <a href="#">Remove</a>
+                  </div>
+               </div>
+            </td>
+            <td><input type="number" value="1" min="1"></td>
+            <td>৳ 600</td>
+         </tr>
+      </table>
+      <div class="total-price">
+         <table>
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
+               <td>Subtotal</td>
+               <td>৳ 2000</td>
             </tr>
-
             <tr>
-                <td> <div class="cart-info">
-                    <img src="img/mushroom.png" alt="">
-                        <div>
-                        <p><h6>Double Mushroom Swiss</h6></p>
-                        <small>Price: ৳ 800</small>
-                        <br>
-                        <a href="#">Remove</a>
-                        </div>
-                    </div>
-                </td>
-                <td><input type="number" value="1" min="1"></td>
-                <td>৳ 800</td>
+               <td>Delivery Charge</td>
+               <td>৳ 30</td>
             </tr>
-
             <tr>
-                <td> <div class="cart-info">
-                    <img src="img/fanta.png" alt="">
-                        <div>
-                        <p><h6>Fanta Grape</h6></p>
-                        <small>Price: ৳ 800</small>
-                        <br>
-                        <a href="#">Remove</a>
-                        </div>
-                    </div>
-                </td>
-                <td><input type="number" value="1" min="1"></td>
-                <td>৳ 600</td>
+               <td>Total</td>
+               <td>৳ 2030</td>
             </tr>
-
-            <tr>
-                <td> <div class="cart-info">
-                    <img src="img/whooper.png" alt="">
-                        <div>
-                        <p><h6>Whooper</h6></p>
-                        <small>Price: ৳ 800</small>
-                        <br>
-                        <a href="#">Remove</a>
-                        </div>
-                    </div>
-                </td>
-                <td><input type="number" value="1" min="1"></td>
-                <td>৳ 800</td>
-            </tr>
-
-            <tr>
-                <td> <div class="cart-info">
-                    <img src="img/milo.png" alt="">
-                        <div>
-                        <p><h6>Milo Choco Juice</h6></p>
-                        <small>Price: ৳ 600</small>
-                        <br>
-                        <a href="#">Remove</a>
-                        </div>
-                    </div>
-                </td>
-                <td><input type="number" value="1" min="1"></td>
-                <td>৳ 600</td>
-            </tr>
-       
-        </table>
-
-
-        <div class="total-price">
-
-            <table>
-                <tr>
-                    <td>Subtotal</td>
-                    <td>৳ 2000</td>
-                </tr>
-                <tr>
-                    <td>Delivery Charge</td>
-                    <td>৳ 30</td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td>৳ 2030</td>
-                </tr>
-            </table>
-
-        </div>
-
-  </div>
- 
-
-
-<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
-
+         </table>
+      </div>
+   </div>
+   <!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
    <?php
-        include('footer.php');
-    ?>
-    
+      include('footer.php');
+      ?>
 </body>
 </html>

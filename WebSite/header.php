@@ -69,77 +69,58 @@
 
 </head>
 <body>
-    <header>
-          <div class="cont" style="padding-bottom: 100px;">
-            <div style="background-color: black;">
-                
-              <img src="img/khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
-            
-            </div>
-
-            <nav class="navbar navbar-expand-lg" style="background-color: black; color: white;">
-                <button class="navbar-toggler custom-toggler" style="border-color: black;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
+   <header>
+      <div class="cont" style="padding-bottom: 100px;">
+         <div style="background-color: black;">
+            <img src="img/khabennaki-dark.png" alt="logo" href="#" style="display: block; margin-left: auto; margin-right: auto; width: 170px;">
+         </div>
+         <nav class="navbar navbar-expand-lg" style="background-color: black; color: white;">
+            <button class="navbar-toggler custom-toggler" style="border-color: black;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Hot Deals</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="Restaurant.php">Restaurants</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Posts</a>
-                </li>
-                
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Earn With Khaben Naki</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 30px;">
-                      <a class="dropdown-item" href="#">Run your Restaurant</a>
-                      <a class="dropdown-item" href="#">Become a Rider</a>
-                      <a class="dropdown-item" href="#">Be a Top Foodie</a>
-                    </div>
+               <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                     <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                   </li>
-                  
+                  <li class="nav-item">
+                     <a class="nav-link" href="#">Hot Deals</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="Restaurant.php">Restaurants</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="#">Posts</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Earn With Khaben Naki</a>
+                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 30px;">
+                        <a class="dropdown-item" href="#">Run your Restaurant</a>
+                        <a class="dropdown-item" href="#">Become a Rider</a>
+                        <a class="dropdown-item" href="#">Be a Top Foodie</a>
+                     </div>
+                  </li>
                   <form class="form-inline my-2 my-lg-0" id="srch" style=" padding-top: 10px;">
-                    <input class="form-control mr-sm-2"  type="search" placeholder="Search" aria-label="Search">
+                     <input class="form-control mr-sm-2"  type="search" placeholder="Search" aria-label="Search">
                   </form>
                   <button style= "width: 40px; height: 40px; margin-top: 10px; background-color: black; color:#F15B5D;"><i class="fas fa-search"></i></button>
-          
                   <li class="nav-item dropdown navbar-right" style="margin-left: 200px; float: right;">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Signup/Login</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 20px;">
-                      <a class="dropdown-item" href="Signin_Login.php">As a Foodie</a>
-                      <a class="dropdown-item" href="#">As a Restaurant</a>
-                      <a class="dropdown-item" href="#">As a Rider</a>
-                    </div>
+                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Signup/Login</a>
+                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 20px;">
+                        <a class="dropdown-item" href="Signin_Login.php">As a Foodie</a>
+                        <a class="dropdown-item" href="#">As a Restaurant</a>
+                        <a class="dropdown-item" href="#">As a Rider</a>
+                     </div>
                   </li>
-              
-              
-              
-                </ul>
+               </ul>
             </div>
-          </nav>
-
-          <div class="box">
+         </nav>
+         <div class="box">
             <div class="box-1"></div>
             <div class="box-2"></div>
-          </div>
-
-        </div>
-    </header>
-    
-    
-    
-    
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
-
+         </div>
+      </div>
+   </header>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>
