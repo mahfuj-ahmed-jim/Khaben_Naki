@@ -87,7 +87,7 @@
                      <a class="nav-link" href="#">Hot Deals</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="Restaurant.php">Restaurants</a>
+                     <a class="nav-link" href="RestaurantsList.php">Restaurants</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="#">Posts</a>
