@@ -32,10 +32,10 @@
    </style>
 </head>
 <body>
-   <h1 class="text-center pb-5 pt-5" style= "color: #F15B5D;">Restaurants List</h1>
+   <h1 class="text-center pb-5 pt-5" style= "color: #F15B5D; margin-top: -60px;">Restaurants List</h1>
    <div class="row justify-content-center pb-5">
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/hotdogcover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -64,8 +64,8 @@
             </div>
          </div>
       </div>
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/pizzacover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -96,8 +96,8 @@
       </div>
    </div>
    <div class="row justify-content-center pt-5 pb-5">
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/chillox cover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -126,8 +126,8 @@
             </div>
          </div>
       </div>
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/cof cover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -158,8 +158,8 @@
       </div>
    </div>
    <div class="row justify-content-center pt-5 pb-5">
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/banglacover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -188,8 +188,8 @@
             </div>
          </div>
       </div>
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/chinesecover.jpeg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
@@ -220,8 +220,8 @@
       </div>
    </div>
    <div class="row justify-content-center pt-5 pb-5">
-      <div class="col-lg-5 ani justify-content-center">
-         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid; width: 650px;">
+      <div class="col-lg-5 ani justify-content-center" style= "margin: 10px;">
+         <div class="card bg-white" style="border: rgba(35, 35, 35, 0.415) 1px solid;">
             <div class="Info pics">
                <div class="cover">
                   <img src="img/kababcover.jpg" class="center" alt="Responsive image" style = "width: 100%; height: 270px; overflow: hidden;  object-fit: cover; border: 1px solid #000000; display: block;">
