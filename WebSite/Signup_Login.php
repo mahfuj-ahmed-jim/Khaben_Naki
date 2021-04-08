@@ -11,15 +11,13 @@
          src="https://kit.fontawesome.com/64d58efce2.js"
          crossorigin="anonymous"
          ></script>
-      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script> <!-- firebase authentication library  -->
-      <script src="https://www.google.com/recaptcha/api.js"></script>
+      
+      <!-- <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script> --> <!-- firebase authentication library  -->
+      <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
       <link rel="stylesheet" href="style.css" />
       <title>Login & Sign up Form</title>
    </head>
    <body>
-      <div>
-      </div>
       <div class="container">
          <div class="forms-container">
             <div class="signin-signup">
@@ -44,7 +42,8 @@
                      </a>
                   </div>
                </form>
-               <form action="#" class="sign-up-form">
+               <form action="#" class="sign-up-form" >
+
                   <h2 class="title">Sign up</h2>
                   <div class="input-field">
                      <i class="fas fa-user"></i>
@@ -58,8 +57,8 @@
                      <i class="fas fa-lock"></i>
                      <input type="password" placeholder="Password" id="sign_up_passward" />
                   </div>
-                  <div id = "recapthca-container"></div>
-                  <button type="button" class="btn" id="signupbtn"> Sign up </button>
+                  <div id="recaptcha-container"> <h1>hellow</h1></div>
+                  <button type="button" class="btn" id="signupbtn" onclick="phoneAuth();"> Sign up </button>
                   <p class="social-text">Or Sign up with social platforms</p>
                   <div class="social-media">
                      <a href="#" class="social-icon social-icon-fb">
@@ -99,7 +98,7 @@
             </div>
          </div>
       </div>
-      <script>
+      <!-- <script>
          var signupphone = document.getElementById("signupbtn");
          var phonenumber = document.getElementById("sign_up_phone");
          var phonenumber = document.getElementById("sign_up_phone");
@@ -131,8 +130,10 @@
            });
          }
          
-      </script>
-      <!-- <script src="verification.js"></script> -->
+      </script> -->
+      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase.js"></script>
+      <script src="https://www.google.com/recaptcha/api.js"></script>
+      <script src="verification.js"></script>
       <script src="app.js"></script>
       <div>
          <?php include('footer.php'); ?>

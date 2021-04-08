@@ -107,9 +107,9 @@
                   <li class="nav-item dropdown navbar-right" style="margin-left: 200px; float: right;">
                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Signup/Login</a>
                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color: black; margin-left: 20px;">
-                        <a class="dropdown-item" href="Signin_Login.php">As a Foodie</a>
+                        <a class="dropdown-item" href="Signup_Login.php">As a Foodie</a>
                         <a class="dropdown-item" href="#">As a Restaurant</a>
-                        <a class="dropdown-item" href="#">As a Rider</a>
+                        <a class="dropdown-item" href="Signup_Login_Rider.php">As a Rider</a>
                      </div>
                   </li>
                </ul>
