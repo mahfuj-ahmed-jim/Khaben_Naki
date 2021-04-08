@@ -57,7 +57,7 @@
                      <i class="fas fa-lock"></i>
                      <input type="password" placeholder="Password" id="sign_up_passward" />
                   </div>
-                  <div id="recaptcha-container"> <h1>hellow</h1></div>
+                  <div id="recaptcha-container"></div>
                   <button type="button" class="btn" id="signupbtn" onclick="phoneAuth();"> Sign up </button>
                   <p class="social-text">Or Sign up with social platforms</p>
                   <div class="social-media">
@@ -98,44 +98,36 @@
             </div>
          </div>
       </div>
-      <!-- <script>
-         var signupphone = document.getElementById("signupbtn");
-         var phonenumber = document.getElementById("sign_up_phone");
-         var phonenumber = document.getElementById("sign_up_phone");
-         
-         signupphone.onclick = function(){
-           window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-               'size': 'normal',
-               'callback': (response) => {
-                     // reCAPTCHA solved, allow signInWithPhoneNumber.
-                     // ...
-                 },
-               'expired-callback': () => {
-                     // Response expired. Ask user to solve reCAPTCHA again.
-                     // ...
-                 }
-           });
-         
-           var recaptcha = window.recaptchaVerifier;
-         
-           firebase.auth().signInWithPhoneNumber(phonenumber.value,recaptcha)
-           .then(function(response) {
-             console.log(response);
-           
-           })
-           .catch(function(error) {
-             console.log(error);
-             // Error; SMS not sent
-             // ...
-           });
-         }
-         
-      </script> -->
-      <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase.js"></script>
-      <script src="https://www.google.com/recaptcha/api.js"></script>
+
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+           https://firebase.google.com/docs/web/setup#available-libraries -->
+      <!-- <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script> -->
+
+      <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+          apiKey: "AIzaSyAfSTmTWKlIihT7Nh2ImRKUKnTwhLS5bYg",
+          authDomain: "khabennaki-81411.firebaseapp.com",
+          databaseURL: "https://khabennaki-81411-default-rtdb.firebaseio.com",
+          projectId: "khabennaki-81411",
+          storageBucket: "khabennaki-81411.appspot.com",
+          messagingSenderId: "1001394332802",
+          appId: "1:1001394332802:web:ec73d5992c0d6f8244409b",
+          measurementId: "G-TMXSF4CKEX"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+      </script>
+
       <script src="verification.js"></script>
       <script src="app.js"></script>
       <div>
+
          <?php include('footer.php'); ?>
       </div>
    </body>

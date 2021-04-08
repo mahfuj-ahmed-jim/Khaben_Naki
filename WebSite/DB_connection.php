@@ -9,4 +9,5 @@
 		->withDatabaseUri('https://khabennaki-81411-default-rtdb.firebaseio.com/'); // database url connected
 
 		$database = $factory->createDatabase(); // access to the database
+
 ?>
