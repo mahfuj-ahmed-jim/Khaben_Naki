@@ -1,9 +1,5 @@
 package com.example.khabennaki.Design.SignUp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -19,8 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.chaos.view.PinView;
-import com.example.khabennaki.Design.Home.HomeActivity;
+import com.example.khabennaki.Design.Database.MainDatabase;
 import com.example.khabennaki.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class PinCodeActivity extends AppCompatActivity {
 
     // for activity
-    String activity;
+    String userType;
 
     // buttons
     private Button back_button,submit_button,shade_button;
@@ -51,6 +51,9 @@ public class PinCodeActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private String verifyCode; // will hold otp to verify
     private String phoneNumber;
+
+    // room databse
+    MainDatabase mainDatabase;
 
     // for keyboard
     InputMethodManager imm = null;
@@ -79,11 +82,14 @@ public class PinCodeActivity extends AppCompatActivity {
         }
 
         // for checking which category is selected
-        activity = getIntent().getExtras().getString("Activity");
-
+        userType = getIntent().getExtras().getString("UserType");
         // get values from intent
         verifyCode = getIntent().getExtras().getString("Verify Code");
         phoneNumber = getIntent().getExtras().getString("Phone Number");
+
+        firebaseAuth = FirebaseAuth.getInstance(); // initialize firebase
+
+        mainDatabase = MainDatabase.getInstance(getApplicationContext()); // room database
 
         // get token for resend code
         SignInActivity signInActivity = new SignInActivity();
@@ -96,8 +102,6 @@ public class PinCodeActivity extends AppCompatActivity {
         // pin view
         pinView = findViewById(R.id.pinview_id);
         resend_textView = findViewById(R.id.resend_textView_id);
-
-        firebaseAuth = FirebaseAuth.getInstance(); // initialize firebase
 
         pinView.requestFocus(); // request for select pincode
 
@@ -210,10 +214,13 @@ public class PinCodeActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
                 Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
-                intent.putExtra("Activity", activity);
+                intent.putExtra("UserType", userType);
                 startActivity(intent);
                 c++;
                 finish();
+                // hide keyboard
+                imm.hideSoftInputFromWindow(pinView.getWindowToken(), 0);
+                PinCodeActivity.this.overridePendingTransition(0, 0); //intent animation
             }
         });
         // if the code doesn't works

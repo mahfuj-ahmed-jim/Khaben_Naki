@@ -1,4 +1,4 @@
-package com.example.khabennaki.Design.Home.ImageFromGallery;
+package com.example.khabennaki.Design.ImageFromGallery;
 
 public class ImageFolders {
     String folderName;

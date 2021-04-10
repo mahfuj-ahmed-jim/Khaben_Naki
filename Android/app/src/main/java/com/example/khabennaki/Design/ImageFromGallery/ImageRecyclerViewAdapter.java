@@ -1,9 +1,8 @@
-package com.example.khabennaki.Design.Home.ImageFromGallery;
+package com.example.khabennaki.Design.ImageFromGallery;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +46,8 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
         Glide.with(context)
                 .load(imageFolders.get(position).getLastImageUrl())
                 .into(holder.folderImageView);
+
+        //Picasso.get().load(imageFolders.get(position).getLastImageUrl()).into(holder.folderImageView);
 
         holder.folderNameTextView.setText(getFolderName(imageFolders.get(position).getFolderName()));
         holder.totalImageTextView.setText(""+imageFolders.get(position).getTotalImages());

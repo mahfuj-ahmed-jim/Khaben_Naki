@@ -1,46 +1,59 @@
 package com.example.khabennaki.Design.SignUp;
 
-import androidx.annotation.DrawableRes;
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.khabennaki.Design.Home.ImageFromGallery.GridAdapter;
-import com.example.khabennaki.Design.Home.ImageFromGallery.ImageFolders;
-import com.example.khabennaki.Design.Home.ImageFromGallery.ImageRecyclerViewAdapter;
+import com.example.khabennaki.Design.Database.Buyer;
+import com.example.khabennaki.Design.Database.MainDatabase;
+import com.example.khabennaki.Design.ImageFromGallery.GridAdapter;
+import com.example.khabennaki.Design.ImageFromGallery.ImageFolders;
+import com.example.khabennaki.Design.ImageFromGallery.ImageRecyclerViewAdapter;
 import com.example.khabennaki.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InformationActivity extends AppCompatActivity {
 
@@ -49,8 +62,8 @@ public class InformationActivity extends AppCompatActivity {
 
     // for bottom sheet
     private BottomSheetBehavior bottomSheetBehavior;
-    private View bottomSheet, coordinateLayout;
-    private TextView crossButton, albumButton; // use as button
+    private View bottomSheet, imageCoordinateLayout;
+    private TextView cancelButton, albumButton; // use as button
     private Button arrowButton;
     private TextView selectedFolderName;
 
@@ -68,6 +81,28 @@ public class InformationActivity extends AppCompatActivity {
     private ImageRecyclerViewAdapter adapter;
     private static String selectedFolderPath = "/All Photos";
     private BroadcastReceiver receiver;
+
+    // profile picture
+    public static CircleImageView profileImageView;
+    private TextView changePictureButton; // textView use ase button
+
+    // scrollViews
+    private ScrollView scrollView;
+    private EditText nameEditText, emailEditText, locationEditText, favouriteItemEditText;
+    private Button saveButton;
+
+    // firebase
+    private static String imageUri;
+    private DatabaseReference databaseReference;
+    private StorageReference storageReference;
+
+    // room databse
+    private MainDatabase mainDatabase;
+    private String userType;
+
+    public static void setImageUri(String imageUri) {
+        InformationActivity.imageUri = imageUri;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,29 +123,44 @@ public class InformationActivity extends AppCompatActivity {
         }catch (Exception e){
         }
 
+        // for checking which category is selected
+        try{
+            userType = getIntent().getExtras().getString("UserType");
+        }catch (Exception e){
+
+        }
+
+        // set up firebase
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get current user
+        String userId = user.getUid();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Buyer").child(userId); // set for real time database
+        storageReference = FirebaseStorage.getInstance().getReference("Buyer").child(userId); // set for image storage
+
         // for bottom sheet
         bottomSheet = findViewById(R.id.bottom_sheet_id);
-        crossButton = findViewById(R.id.cross_button_id);
+        cancelButton = findViewById(R.id.canel_button_id);
         albumButton = findViewById(R.id.album_button_id);
         arrowButton = findViewById(R.id.arrow_button_id);
         selectedFolderName = findViewById(R.id.selectedFolderName_textView_Id);
-        coordinateLayout = findViewById(R.id.cordinator_layout_id);
-        Button button = findViewById(R.id.button_id);
+        imageCoordinateLayout = findViewById(R.id.imageCoordinator_layout_id);
         // for recyclerView
         layoutView = findViewById(R.id.recyclerView_layout_id);
-
         recyclerView = findViewById(R.id.recyclerView_id);
         // for gridView
         gridView = findViewById(R.id.gridView_id);
+        // profile picture
+        profileImageView = findViewById(R.id.profileImage_id);
+        changePictureButton = findViewById(R.id.chnagePictureButton_id);
+        //editTexts
+        scrollView = findViewById(R.id.scrollView4);
+        nameEditText = findViewById(R.id.nameEditText_id);
+        emailEditText = findViewById(R.id.emailEditText_id);
+        locationEditText = findViewById(R.id.locationEditText_id);
+        favouriteItemEditText = findViewById(R.id.favouriteItemEditText_id);
+        saveButton = findViewById(R.id.saveButton_id);
 
         initialization(); // initialize activity on start
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slideUp(coordinateLayout); // visible the coordinator layout
-            }
-        });
 
         // recyclerView action return
         receiver = new BroadcastReceiver() {
@@ -119,23 +169,66 @@ public class InformationActivity extends AppCompatActivity {
                 // Get extra data included in the Intent
                 selectedFolderPath = intent.getStringExtra("FolderPath");
                 selectedFolderName.setText(intent.getStringExtra("FolderName"));
+                /*gridAdapter.setImageList(tempImages, selectedFolderPath);
+                gridAdapter.notifyDataSetChanged();*/
+                gridAdapter = (GridAdapter) gridView.getAdapter();
                 gridAdapter.setImageList(tempImages, selectedFolderPath);
-                gridAdapter.notifyDataSetChanged();
+                int index = gridView.getFirstVisiblePosition();
+                gridView.smoothScrollToPosition(index);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    gridView.setNestedScrollingEnabled(true);
+                }
                 arrowButton.performClick();
-                gridView.setFocusable(true);
             }
         };
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
                 new IntentFilter("custom-message"));
 
+
+        favouriteItemEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scrollView.smoothScrollTo(0, favouriteItemEditText.getBottom());
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        favouriteItemEditText.requestFocus();
+                    }
+                }
+                );
+                return false;
+            }
+        }
+        );
+
         // on click listener for buttons
 
-        // for bottom sheet buttons
-        crossButton.setOnClickListener(new View.OnClickListener() {
+        // profile pictures
+        changePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slideDown(coordinateLayout); // hide coordinator layout
+                slideUp(imageCoordinateLayout);
+            }
+        });
+
+        // for bottom sheet buttons
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideDown(imageCoordinateLayout); // hide coordinator layout
+                // thread to make smooth
+                Thread background = new Thread() {
+                    public void run() {
+                        try {
+                            sleep(500);
+                            imageCoordinateLayout.setVisibility(View.GONE); // hide layout
+                            gridView.setVisibility(View.GONE);
+                        } catch (Exception e) {
+                        }
+                    }
+                };
+                background.start();
             }
         });
 
@@ -183,6 +276,13 @@ public class InformationActivity extends AppCompatActivity {
             }
         });
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveToFirebase();
+            }
+        });
+
     }
 
     // method for initialize activity on start
@@ -190,7 +290,8 @@ public class InformationActivity extends AppCompatActivity {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet); // bottom sheet behavior
         albumButton.setVisibility(View.GONE); // hide album button
 
-        coordinateLayout.setVisibility(View.GONE);
+        // hide imageView slider
+        imageCoordinateLayout.setVisibility(View.GONE);
 
         // for recyclerView
         //layoutView.setVisibility(View.GONE); // hide recyclerView
@@ -219,10 +320,78 @@ public class InformationActivity extends AppCompatActivity {
 
     }
 
+    // methods for firebase
+
+    private void saveToFirebase() {
+
+        /*File f = new File(imageUri);
+        Uri yourUri = Uri.fromFile(f);
+
+        // save to firebase storage
+        StorageReference reference = null;
+        try{
+            reference = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(yourUri));
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage().toString().trim(),Toast.LENGTH_LONG).show();
+        }
+        reference.putFile(yourUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!uriTask.isSuccessful());
+                Uri uri = uriTask.getResult();*/
+
+                String name = nameEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
+                String location = locationEditText.getText().toString().trim();
+                String item = favouriteItemEditText.getText().toString().trim();
+                String picture = imageUri;
+                int point = 0;
+                List <String> searchList = new ArrayList<>();
+                List <String> orderList = new ArrayList<>();
+
+                searchList.add("Burger");
+                searchList.add("Pizza");
+                searchList.add("Chap");
+
+                orderList.add("Order 1");
+                orderList.add("Order 2");
+                orderList.add("Order 3");
+
+                Buyer buyer = new Buyer(name, email, location, item, picture, point, searchList, orderList);
+
+                databaseReference.setValue(buyer);
+
+                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+/*
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),"Upload Fail",Toast.LENGTH_LONG).show();
+            }
+        });*/
+
+    }
+
+    // getting the extension of the image
+    public String getFileExtension (Uri imageUri){
+        String string = null;
+        try{
+            ContentResolver contentResolver = getContentResolver();
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+            string = mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(imageUri));
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        return string;
+    }
+
     // methods for recyclerView
     // slide the view from below itself to the current position
     public void slideUp(View view){
         view.setVisibility(View.VISIBLE);
+        gridView.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
@@ -244,6 +413,9 @@ public class InformationActivity extends AppCompatActivity {
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
+        view.setVisibility(View.GONE);
+        gridView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
         Log.d("RecyclerView", "Yes");
     }
 
@@ -332,7 +504,7 @@ public class InformationActivity extends AppCompatActivity {
 
             if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
-                fetchGalleryImages(); // if permission granted fetch all the images from gallery
+                initialization(); // initialization
             }else{
                 Toast.makeText(getApplicationContext(),"Permission Denied",Toast.LENGTH_LONG).show();
             }
@@ -343,8 +515,23 @@ public class InformationActivity extends AppCompatActivity {
     @SuppressLint("WrongConstant")
     @Override
     public void onBackPressed() {
-        if(coordinateLayout.getVisibility()==0){
-            slideDown(coordinateLayout);
+        if(imageCoordinateLayout.getVisibility()==0){
+            slideDown(imageCoordinateLayout);
+            try{
+                // thread to make smooth
+                Thread background = new Thread() {
+                    public void run() {
+                        try {
+                            sleep(500);
+                            imageCoordinateLayout.setVisibility(View.GONE);
+                        } catch (Exception e) {
+                        }
+                    }
+                };
+                background.start();
+            }catch (Exception e){
+
+            }
         }else{
             super.onBackPressed();
         }

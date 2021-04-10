@@ -1,10 +1,5 @@
 package com.example.khabennaki.Design.SignUp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +15,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.khabennaki.R;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class SignInActivity extends AppCompatActivity {
 
     // for activity
-    String activity;
+    String userType;
 
     // privacy textView layout
     private LinearLayout buyer_layout, others_layout;
@@ -79,7 +79,7 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         // for checking which category is selected
-        activity = getIntent().getExtras().getString("Activity");
+        userType = getIntent().getExtras().getString("UserType");
 
         // for edittext
         editText_layout = findViewById(R.id.editText_layout_id); // editText layout
@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
         buyer_layout = findViewById(R.id.buyer_test_layout_id);
         others_layout = findViewById(R.id.others_Text_layout_id);
 
-        if(!activity.equals("Buyer")){
+        if(!userType.equals("Buyer")){
             facebook_button.setVisibility(View.GONE);
             gmail_button.setVisibility(View.GONE);
             others_layout.setVisibility(View.GONE);
@@ -127,7 +127,7 @@ public class SignInActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), PinCodeActivity.class);
                 intent.putExtra("Verify Code",verifyCode);
                 intent.putExtra("Phone Number","+880"+editText.getText().toString().trim());
-                intent.putExtra("Activity",activity);
+                intent.putExtra("UserType",userType);
                 startActivity(intent);
             }
         };
