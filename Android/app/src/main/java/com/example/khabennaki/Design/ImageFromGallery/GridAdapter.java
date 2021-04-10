@@ -1,9 +1,6 @@
-package com.example.khabennaki.Design.Home.ImageFromGallery;
+package com.example.khabennaki.Design.ImageFromGallery;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.khabennaki.Design.SignUp.InformationActivity;
 import com.example.khabennaki.R;
 
 import java.util.ArrayList;
@@ -19,12 +17,10 @@ import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
     private Context context;
-    private List <String> imageList = new ArrayList<>();
     private List<String> selectedImageList = new ArrayList<>();
 
     public GridAdapter(Context context, List<String> imageList) {
         this.context = context;
-        this.imageList = imageList;
         this.selectedImageList = imageList;
     }
 
@@ -60,11 +56,21 @@ public class GridAdapter extends BaseAdapter {
                 .load(selectedImageList.get(position))
                 .into(imageView);
 
+        //Picasso.get().load(selectedImageList.get(position)).into(imageView);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
                     Toast.makeText(context, selectedImageList.get(position).toString(), Toast.LENGTH_LONG).show();
+                    InformationActivity informationActivity = new InformationActivity();
+                    informationActivity.setImageUri(selectedImageList.get(position));
+
+                    // set up image
+                    Glide.with(context)
+                            .load(selectedImageList.get(position))
+                            .into(informationActivity.profileImageView);
+
                 }catch (Exception e){
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                 }

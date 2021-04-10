@@ -6,16 +6,228 @@
     android:layout_height="match_parent"
     tools:context=".Design.SignUp.InformationActivity">
 
-    <Button
-        android:id="@+id/button_id"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </Button>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="Profile Information"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/gradient"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <LinearLayout
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="145dp"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage_id"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/person">
+
+                </de.hdodenhof.circleimageview.CircleImageView>
+
+                <TextView
+                    android:id="@+id/chnagePictureButton_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:gravity="center"
+                    android:text="Change profile picture"
+                    android:textColor="@color/main_color"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/radio_unselect_button"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/nameEditText_id"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:hint="Enter your name"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/background_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/radio_unselect_button"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/emailEditText_id"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:hint="Enter your email"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/background_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/radio_unselect_button"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/locationEditText_id"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:hint="Enter your location"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/background_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/radio_unselect_button"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/favouriteItemEditText_id"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:singleLine="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:hint="Enter your favourite item"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/background_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/saveButton_id"
+                android:background="@drawable/main_button"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+            </Button>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/cordinator_layout_id"
+        android:id="@+id/imageCoordinator_layout_id"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,7 +334,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/cross_button_id"
+                            android:id="@+id/canel_button_id"
                             android:gravity="center"
                             android:fontFamily="@font/poppins_regular"
                             android:textColor="@color/primary_text_color"
